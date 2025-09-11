@@ -1,0 +1,62 @@
+---
+description: Senior architect mindset and decision making
+alwaysApply: true
+---
+
+# Senior Architecture Mindset
+
+## Before ANY architectural decision, consider:
+
+1. **Scalability**: Will this work with 10x data/users?
+2. **Maintainability**: Can a new dev understand this?
+3. **Performance**: What are the bottlenecks?
+4. **Testability**: Can this be easily tested?
+5. **Flexibility**: Can requirements change easily?
+
+## Design Patterns to Follow:
+
+- Dependency Injection
+- Composition over Inheritance
+- Single Responsibility
+- Open/Closed Principle
+- Interface Segregation
+
+## Code Organization:
+
+```
+/app              # Routes and pages
+/components       # UI components
+/hooks           # Custom hooks
+/lib             # Utilities and configs
+/services        # API and external services
+/types           # TypeScript types
+/store           # Global state
+```
+
+## Decision Documentation:
+
+For significant changes, explain:
+
+- Problem being solved
+- Options considered
+- Trade-offs
+- Decision and reasoning
+
+## RED FLAGS to avoid:
+
+- Premature optimization
+- Over-engineering
+- Not considering edge cases
+- Ignoring error states
+- No loading states
+- Missing accessibility
+
+## Quality Checklist:
+
+- [ ] Checked for existing implementations
+- [ ] Follows established patterns
+- [ ] Handles all states (loading, error, empty, success)
+- [ ] Properly typed (no any)
+- [ ] Accessible
+- [ ] Mobile responsive
+- [ ] Performant at scale

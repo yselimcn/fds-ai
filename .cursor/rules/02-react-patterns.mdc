@@ -1,0 +1,48 @@
+---
+description: React best practices and anti-pattern prevention
+globs:
+    - '**/*.tsx'
+    - '**/components/**'
+    - '**/hooks/**'
+alwaysApply: true
+---
+
+# React Best Practices - No Anti-Patterns
+
+## Component Rules
+
+- Single Responsibility: One component, one purpose
+- Composition over inheritance
+- Props interface always typed with TypeScript
+- Prefer function components with hooks
+
+## State Management Anti-Patterns to AVOID:
+
+```typescript
+// ❌ BAD: Derived state in useState
+const [filteredItems, setFilteredItems] = useState([])
+useEffect(() => {
+    setFilteredItems(items.filter((item) => item.active))
+}, [items])
+
+// ✅ GOOD: Use useMemo for derived state
+const filteredItems = useMemo(
+    () => items.filter((item) => item.active),
+    [items],
+)
+```
+
+## Hooks Rules:
+
+- Custom hooks start with 'use'
+- Extract logic used in 2+ components
+- Always return consistent API: { data, error, isLoading }
+- Clean up effects properly
+
+## NEVER:
+
+- Use useEffect for derived state
+- Mutate state directly
+- Use array indexes as keys in dynamic lists
+- Put business logic in components (use hooks/utils)
+- Create god components (>200 lines)

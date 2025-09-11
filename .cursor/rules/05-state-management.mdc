@@ -1,0 +1,53 @@
+---
+description: State management patterns and rules
+globs:
+    - '**/*.tsx'
+    - '**/hooks/**'
+    - '**/store/**'
+alwaysApply: true
+---
+
+# State Management Hierarchy
+
+## 1. Local State (useState)
+
+For component-specific state only
+
+## 2. Lifted State
+
+Share between parent-child only when necessary
+
+## 3. Context (sparingly)
+
+Only for truly global, rarely-changing data (theme, user)
+
+## 4. Zustand/Jotai
+
+For complex global state before reaching for Context
+
+## Key Rules:
+
+- NEVER store derived state
+- NEVER duplicate state
+- Colocate state near usage
+- Single source of truth
+
+## Custom Hook Pattern:
+
+```typescript
+function useResource(id: string) {
+    const [data, setData] = useState<Resource | null>(null)
+    const [error, setError] = useState<Error | null>(null)
+    const [isLoading, setIsLoading] = useState(true)
+
+    // Effect logic here
+
+    return { data, error, isLoading }
+}
+```
+
+## Form State:
+
+- Use react-hook-form for complex forms
+- Controlled components for simple forms
+- Always validate on client AND server

@@ -1,0 +1,54 @@
+---
+description: Shadcn/ui and Tailwind CSS patterns
+globs:
+    - '**/components/**'
+    - '**/*.tsx'
+alwaysApply: true
+---
+
+# Shadcn/ui & Tailwind Rules
+
+## ALWAYS use existing shadcn components:
+
+```typescript
+// ✅ GOOD
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
+
+// ❌ BAD: Don't recreate what exists
+<button className="px-4 py-2 border">Click</button>
+```
+
+## Use cn() utility for conditional classes:
+
+```typescript
+import { cn } from '@/lib/utils';
+
+<div className={cn(
+  "base-classes",
+  condition && "conditional-classes",
+  className // Allow override
+)} />
+```
+
+## Component Composition:
+
+- Extend shadcn components, don't wrap unnecessarily
+- Use variant props
+- Follow shadcn patterns for consistency
+
+## Tailwind Rules:
+
+- Mobile-first responsive design
+- Use Tailwind's design system (spacing, colors)
+- Avoid arbitrary values when possible
+- Group related utilities
+
+## File Organization:
+
+```
+/components
+  /ui          # shadcn components (don't modify)
+  /features    # feature-specific components
+  /shared      # shared app components
+```

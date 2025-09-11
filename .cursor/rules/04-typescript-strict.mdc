@@ -1,0 +1,48 @@
+---
+description: TypeScript strict mode enforcement
+alwaysApply: true
+---
+
+# TypeScript Strict Mode Rules
+
+## NEVER use 'any'
+
+```typescript
+// ❌ FORBIDDEN
+const data: any = fetchData()
+
+// ✅ REQUIRED
+const data: unknown = fetchData()
+// or properly typed:
+const data: UserData = fetchData()
+```
+
+## Type Everything Properly
+
+- Explicit return types for functions
+- Interface for props
+- Type for state
+- Generics when appropriate
+
+## Interfaces vs Types
+
+- Use interface for object shapes
+- Use type for unions, intersections, primitives
+
+## Utility Types
+
+Use built-in utility types:
+
+- Partial, Required, Readonly
+- Pick, Omit, Record
+- ReturnType, Parameters
+
+## Strict Null Checks
+
+Always handle null/undefined:
+
+```typescript
+// ✅ GOOD
+const user: User | null = getUser();
+if (!user) return <div>Not found</div>;
+```

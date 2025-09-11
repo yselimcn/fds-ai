@@ -1,0 +1,50 @@
+---
+description: Performance optimization patterns for React and Next.js
+alwaysApply: false
+---
+
+# Performance Optimization Guidelines
+
+## Memoization - Use Wisely
+
+```typescript
+// ✅ GOOD: Expensive computation
+const ExpensiveList = memo(({ items }) => {
+  const processed = useMemo(() =>
+    expensiveProcess(items), [items]
+  );
+  return <>{processed.map(...)}</>;
+});
+
+// ❌ BAD: Over-optimization
+const SimpleText = memo(({ text }) => <p>{text}</p>);
+```
+
+## useCallback - Only When Necessary
+
+- As dependency in other hooks
+- Passed to memoized components
+- Expensive to recreate
+
+## Code Splitting
+
+```typescript
+// Dynamic imports for heavy components
+const HeavyChart = dynamic(() => import('./HeavyChart'), {
+  loading: () => <Skeleton />,
+  ssr: false
+});
+```
+
+## Image Optimization
+
+- Use next/image always
+- Specify dimensions
+- Use appropriate formats
+- Lazy load below fold
+
+## Bundle Size
+
+- Check bundle impact before adding libraries
+- Use tree-shakeable imports
+- Analyze with @next/bundle-analyzer

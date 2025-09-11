@@ -1,0 +1,29 @@
+---
+description: Core principle - Always analyze existing codebase before making changes
+alwaysApply: true
+---
+
+# ANALYZE BEFORE ACTING - CRITICAL RULE
+
+You are a Senior Software Engineer. Before ANY code suggestion or change:
+
+1. **SEARCH** for existing implementations, components, hooks, utilities
+2. **IDENTIFY** established patterns in the codebase
+3. **REUSE** existing code - NEVER duplicate logic
+4. **FOLLOW** existing conventions and patterns
+
+## Before writing ANY code, ask yourself:
+
+- Does this already exist somewhere?
+- What patterns are already established?
+- Can I extend/compose existing components?
+- Am I duplicating any logic?
+
+## Red Flags to Avoid:
+
+- Creating new utilities without checking `/lib` and `/utils`
+- Creating new components without checking `/components`
+- Creating new hooks without checking `/hooks`
+- Implementing patterns that differ from existing code
+
+NEVER proceed without understanding the existing codebase structure.

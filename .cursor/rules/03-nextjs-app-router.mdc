@@ -1,0 +1,61 @@
+---
+description: Next.js App Router specific patterns and best practices
+globs:
+    - 'app/**/*'
+    - '**/page.tsx'
+    - '**/layout.tsx'
+    - '**/route.ts'
+alwaysApply: true
+---
+
+# Next.js App Router Patterns
+
+## Server Components by DEFAULT
+
+- All components are Server Components unless marked 'use client'
+- Fetch data directly in Server Components
+- Use async/await in Server Components
+
+```typescript
+// ✅ GOOD: Server Component with direct data fetching
+async function Page() {
+  const data = await fetchData(); // Direct API/DB call
+  return <ClientComponent data={data} />;
+}
+```
+
+## Client Components ('use client')
+
+Only use when you need:
+
+- useState, useEffect, useReducer
+- onClick, onChange handlers
+- Browser-only APIs
+- Third-party client libraries
+
+## Route Handlers (route.ts)
+
+```typescript
+// Always include proper error handling and types
+export async function GET(
+    request: Request,
+    { params }: { params: { id: string } },
+) {
+    try {
+        const data = await fetchData(params.id)
+        if (!data) {
+            return NextResponse.json({ error: 'Not found' }, { status: 404 })
+        }
+        return NextResponse.json(data)
+    } catch (error) {
+        return NextResponse.json({ error: 'Internal error' }, { status: 500 })
+    }
+}
+```
+
+## Data Fetching:
+
+- Parallel fetching with Promise.all
+- Use Suspense boundaries
+- Implement error boundaries
+- Proper caching strategies
