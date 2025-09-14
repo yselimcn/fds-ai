@@ -67,6 +67,51 @@ const user: User | null = getUser();
 if (!user) return <div>Not found</div>;
 ```
 
+## Required tsconfig.json Settings
+
+Your TypeScript configuration MUST include these settings:
+
+```json
+{
+    "compilerOptions": {
+        "strict": true,
+        "noImplicitAny": true,
+        "strictNullChecks": true,
+        "strictFunctionTypes": true,
+        "strictBindCallApply": true,
+        "strictPropertyInitialization": true,
+        "noImplicitThis": true,
+        "alwaysStrict": true,
+        "exactOptionalPropertyTypes": true,
+        "noUncheckedIndexedAccess": true,
+        "noEmitOnError": true
+    }
+}
+```
+
+**NEVER disable ESLint rules. Fix the code instead.**
+
+## Modern TypeScript Operators
+
+Use modern operators for cleaner, safer code:
+
+```typescript
+// ✅ REQUIRED: Nullish coalescing (checks null/undefined only)
+const value = userInput ?? 'default' // NOT: userInput || 'default'
+
+// ✅ REQUIRED: Optional chaining
+const city = user?.address?.city // NOT: user && user.address && user.address.city
+
+// ✅ REQUIRED: Object spread
+const updated = { ...existing, name: 'new' } // NOT: Object.assign({}, existing, { name: 'new' })
+
+// ✅ REQUIRED: Prefix unused parameters with underscore
+function handleEvent(_event: Event, data: Data) {
+    // Use data, _event is intentionally unused
+    processData(data)
+}
+```
+
 ## Discriminated Unions - Use Them
 
 Use discriminated unions for state management and exhaustiveness checking:
