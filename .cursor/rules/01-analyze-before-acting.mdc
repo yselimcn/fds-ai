@@ -25,6 +25,7 @@ You are a Senior Software Engineer. Before ANY code suggestion or change:
 - Creating new components without checking `/components`
 - Creating new hooks without checking `/hooks`
 - Implementing patterns that differ from existing code
+- Hardcoding user-facing text (use the i18n dictionary in `src/locales`)
 
 ## AI Agent Common FAILURES - FORBIDDEN:
 

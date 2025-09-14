@@ -1,0 +1,80 @@
+---
+description: 'Internationalization (i18n) & Text Handling Rule'
+alwaysApply: true
+---
+
+# Internationalization (i18n) & Text Handling
+
+## NEVER Hardcode User-Facing Text
+
+All text that will be displayed to the user in the UI **MUST NOT** be hardcoded directly into components. This is a critical rule for ensuring our application is ready for multi-language support. Violating this rule is a failure.
+
+## The Dictionary Pattern
+
+All UI text is managed through a centralized dictionary system.
+
+1.  **Single Source of Truth**: The default language is Turkish. All user-facing strings **MUST** be added to `src/locales/tr.json`.
+
+2.  **Semantic Structure**: The JSON dictionary must be structured logically and semantically.
+
+    ```json
+    {
+        "page": {
+            "home": {
+                "title": "Ana Sayfa Başlığı",
+                "description": "Bu bir açıklamadır."
+            }
+        },
+        "component": {
+            "button": {
+                "submit": "Gönder"
+            }
+        }
+    }
+    ```
+
+3.  **Accessing Text**: In **Server Components**, the `getDictionary` helper function **MUST** be used to load text.
+
+    ```tsx
+    // ✅ REQUIRED USAGE
+    import { getDictionary } from '@/lib/dictionary'
+
+    export default async function MyPage() {
+        const dict = await getDictionary()
+
+        return (
+            <div>
+                <h1>{dict.page.home.title}</h1>
+                <button>{dict.component.button.submit}</button>
+            </div>
+        )
+    }
+    ```
+
+## AI Agent Workflow
+
+When creating or modifying a component that requires text:
+
+1.  **Add Text to Dictionary**: Add the required text as a new key-value pair in `src/locales/tr.json`. Follow the existing semantic structure.
+2.  **Fetch Dictionary**: In the component, use `await getDictionary()` to get the dictionary object.
+3.  **Reference Text Key**: Use the key from the dictionary to render the text.
+
+### FORBIDDEN:
+
+```typescript
+// ❌ FORBIDDEN: Hardcoded text in JSX
+<div>Merhaba Dünya</div>
+<Button>Kaydet</Button>
+<p>Kullanıcı adı gerekli.</p>
+```
+
+### REQUIRED:
+
+```typescript
+// ✅ REQUIRED: Text referenced from dictionary
+const dict = await getDictionary();
+...
+<div>{dict.greeting}</div>
+<Button>{dict.common.actions.save}</Button>
+<p>{dict.form.errors.usernameRequired}</p>
+```

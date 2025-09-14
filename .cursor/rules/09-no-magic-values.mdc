@@ -35,6 +35,23 @@ fetch(`${process.env.NEXT_PUBLIC_API_URL}/users`)
 if (role === USER_ROLES.ADMIN) setError(ERROR_MESSAGES.GENERIC)
 ```
 
+### User-Facing Text (i18n)
+
+**ALL user-facing text MUST use the dictionary pattern.** See `.cursor/rules/12-internationalization.mdc` for the full implementation guide.
+
+```typescript
+// ❌ FORBIDDEN
+<h1>Merhaba Dünya</h1>
+<Button>Kaydet</Button>
+
+// ✅ REQUIRED
+import { getDictionary } from '@/lib/dictionary'
+const dict = await getDictionary()
+...
+<h1>{dict.page.home.title}</h1>
+<Button>{dict.component.button.save}</Button>
+```
+
 ### Inline Colors
 
 ```typescript

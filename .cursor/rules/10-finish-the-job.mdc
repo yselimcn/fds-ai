@@ -24,6 +24,7 @@ throw new Error('Not implemented')
 // ❌ FORBIDDEN
 <div>Content goes here</div>
 <p>Lorem ipsum...</p>
+// Instead of placeholders, use the i18n dictionary. See rule 12.
 return "This is a basic example"
 console.log('test')
 ```
@@ -93,6 +94,7 @@ Before marking ANY task complete:
 - [ ] All edge cases considered
 - [ ] No console.logs for debugging
 - [ ] No placeholder text
+- [ ] No hardcoded user-facing text (uses i18n dictionary)
 - [ ] No TODO comments
 - [ ] Properly typed (no any)
 - [ ] Tested basic functionality
