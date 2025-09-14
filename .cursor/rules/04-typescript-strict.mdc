@@ -5,17 +5,37 @@ alwaysApply: true
 
 # TypeScript Strict Mode Rules
 
-## NEVER use 'any'
+## NEVER use 'any' - NO ESCAPE HATCHES
 
 ```typescript
 // ❌ FORBIDDEN
 const data: any = fetchData()
+const result = data as any
+const value = data as unknown as Type
+// @ts-ignore
+// @ts-expect-error
+// @ts-nocheck
 
 // ✅ REQUIRED
 const data: unknown = fetchData()
 // or properly typed:
 const data: UserData = fetchData()
 ```
+
+## ALL Type Escape Hatches are FORBIDDEN:
+
+- `any` type
+- `as any` assertion
+- `as unknown as Type` double assertion
+- `@ts-ignore` comment
+- `@ts-expect-error` comment - If you MUST, add detailed explanation
+- `@ts-nocheck` comment
+- `{}` as object type
+- Non-null assertion `!` without type guard
+- Missing function return types
+- Implicit any parameters
+
+**If you can't type it properly, you don't understand it**
 
 ## Type Everything Properly
 
@@ -46,3 +66,46 @@ Always handle null/undefined:
 const user: User | null = getUser();
 if (!user) return <div>Not found</div>;
 ```
+
+## Discriminated Unions - Use Them
+
+Use discriminated unions for state management and exhaustiveness checking:
+
+```typescript
+// ✅ REQUIRED Pattern
+type Result<T> =
+  | { status: 'loading' }
+  | { status: 'error'; error: Error }
+  | { status: 'success'; data: T }
+
+function handleResult<T>(result: Result<T>) {
+  switch (result.status) {
+    case 'loading':
+      return <Spinner />
+    case 'error':
+      return <ErrorDisplay error={result.error} />
+    case 'success':
+      return <DataDisplay data={result.data} />
+    default:
+      // This ensures all cases are handled
+      const _exhaustive: never = result
+      throw new Error('Unhandled case')
+  }
+}
+
+// ❌ FORBIDDEN: Using multiple boolean flags
+interface BadState {
+  isLoading: boolean
+  hasError: boolean
+  data?: any
+}
+```
+
+**NOTE: This pattern applies to ALL state management including:**
+
+- React component state (useState)
+- Custom hooks return values
+- Async operation states
+- Form states
+
+**See also:** `05-state-management.mdc` and `08-architecture.mdc` for implementation examples

@@ -26,4 +26,25 @@ You are a Senior Software Engineer. Before ANY code suggestion or change:
 - Creating new hooks without checking `/hooks`
 - Implementing patterns that differ from existing code
 
+## AI Agent Common FAILURES - FORBIDDEN:
+
+- Creating duplicate components with slightly different names
+- Implementing inline styles instead of using Tailwind
+- Hardcoding values that should be design tokens
+- Creating new color variations instead of using theme
+- Ignoring existing component variants
+- Writing "basic example" code instead of production-ready
+- Leaving TODO comments or placeholders
+- Creating files when existing ones can be extended
+
+## File Creation = LAST RESORT
+
+Before creating ANY file:
+
+1. Can this go in an existing file? → DO IT
+2. Can this extend an existing component? → DO IT
+3. Can this use an existing utility? → DO IT
+
+**Creating a new file when unnecessary = FAILURE**
+
 NEVER proceed without understanding the existing codebase structure.

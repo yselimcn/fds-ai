@@ -1,0 +1,88 @@
+---
+description: Ban all magic values and hardcoded strings
+alwaysApply: true
+---
+
+# NO MAGIC VALUES - EVER
+
+## FORBIDDEN - Immediate Failure:
+
+### Magic Numbers
+
+```typescript
+// ❌ FORBIDDEN
+if (status === 404) {...}
+setTimeout(() => {}, 3000)
+padding: 16
+width: 350
+
+// ✅ REQUIRED
+if (status === HTTP_STATUS.NOT_FOUND) {...}
+setTimeout(() => {}, ANIMATION_DURATION.STANDARD)
+padding: theme.spacing.md
+width: CARD_WIDTH.DEFAULT
+```
+
+### Hardcoded Strings
+
+```typescript
+// ❌ FORBIDDEN
+fetch('https://api.example.com/users')
+if (role === 'admin') setError('Something went wrong')
+
+// ✅ REQUIRED
+fetch(`${process.env.NEXT_PUBLIC_API_URL}/users`)
+if (role === USER_ROLES.ADMIN) setError(ERROR_MESSAGES.GENERIC)
+```
+
+### Inline Colors
+
+```typescript
+// ❌ FORBIDDEN
+color: '#FF5733'
+backgroundColor: 'rgb(255, 87, 51)'
+borderColor: 'red'
+
+// ✅ REQUIRED
+color: theme.colors.primary
+backgroundColor: 'bg-destructive'
+borderColor: 'border-red-500'
+```
+
+## MANDATORY Constants Structure:
+
+```typescript
+// constants/index.ts
+export const HTTP_STATUS = {
+    OK: 200,
+    NOT_FOUND: 404,
+    SERVER_ERROR: 500,
+} as const
+
+export const ANIMATION_DURATION = {
+    INSTANT: 0,
+    FAST: 150,
+    STANDARD: 300,
+    SLOW: 500,
+} as const
+
+export const ERROR_MESSAGES = {
+    GENERIC: 'An error occurred. Please try again.',
+    NETWORK: 'Network error. Check your connection.',
+    UNAUTHORIZED: 'You are not authorized to perform this action.',
+} as const
+```
+
+## Environment Variables:
+
+**ALL external URLs, API keys, and configuration MUST use env vars:**
+
+```typescript
+// ❌ FORBIDDEN
+const API_URL = 'https://api.production.com'
+
+// ✅ REQUIRED
+const API_URL = process.env.NEXT_PUBLIC_API_URL
+```
+
+## NO EXCEPTIONS - If you hardcode values, you FAILED

@@ -1,0 +1,112 @@
+---
+description: Complete implementations only - no placeholders or TODOs
+alwaysApply: true
+---
+
+# FINISH WHAT YOU START - NO EXCUSES
+
+## FORBIDDEN - Automatic Failure:
+
+### TODO Comments
+
+```typescript
+// ❌ FORBIDDEN
+// TODO: implement error handling
+// TODO: add validation
+// FIXME: handle edge case
+// NOTE: This needs improvement
+throw new Error('Not implemented')
+```
+
+### Placeholder Content
+
+```typescript
+// ❌ FORBIDDEN
+<div>Content goes here</div>
+<p>Lorem ipsum...</p>
+return "This is a basic example"
+console.log('test')
+```
+
+### Partial Implementations
+
+```typescript
+// ❌ FORBIDDEN
+function handleSubmit() {
+    // Will implement later
+}
+
+try {
+    await fetchData()
+} catch (error) {
+    // Handle error
+}
+```
+
+## REQUIRED - Production-Ready Code:
+
+### Complete Error Handling
+
+```typescript
+// ✅ REQUIRED
+try {
+    const data = await fetchData()
+    return processData(data)
+} catch (error) {
+    logger.error('Failed to fetch data', error)
+
+    if (error instanceof NetworkError) {
+        return { error: ERROR_MESSAGES.NETWORK }
+    }
+
+    if (error instanceof ValidationError) {
+        return { error: error.message }
+    }
+
+    return { error: ERROR_MESSAGES.GENERIC }
+}
+```
+
+### Complete UI States
+
+```typescript
+// ✅ REQUIRED
+function Component() {
+    const { data, error, isLoading } = useData()
+
+    // ALL states handled
+    if (isLoading) return <LoadingSpinner />
+    if (error) return <ErrorDisplay error={error} />
+    if (!data) return <EmptyState />
+
+    return <DataDisplay data={data} />
+}
+```
+
+## COMPLETION CHECKLIST:
+
+Before marking ANY task complete:
+
+- [ ] All functions have implementations
+- [ ] All error cases handled
+- [ ] All UI states covered (loading, error, empty, success)
+- [ ] All edge cases considered
+- [ ] No console.logs for debugging
+- [ ] No placeholder text
+- [ ] No TODO comments
+- [ ] Properly typed (no any)
+- [ ] Tested basic functionality
+
+## THREE STRIKES RULE:
+
+If you:
+
+1. Make the same mistake 3 times
+2. Can't fix linter errors in 3 attempts
+3. Generate broken code 3 times
+
+**STOP and ask for human help. Don't keep trying.**
+
+## Remember: Backend developers will use this code immediately.
+
+## Incomplete code = WASTED TIME = FAILURE

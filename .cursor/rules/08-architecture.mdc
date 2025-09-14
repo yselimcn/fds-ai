@@ -26,11 +26,13 @@ alwaysApply: true
 ```
 /app              # Routes and pages
 /components       # UI components
-/hooks           # Custom hooks
-/lib             # Utilities and configs
-/services        # API and external services
-/types           # TypeScript types
-/store           # Global state
+/features         # Feature-specific modules (e.g., auth, dashboard)
+/providers        # Application-wide context providers
+/hooks            # Custom hooks
+/lib              # Utilities and configs
+/services         # API and external services
+/types            # TypeScript types
+/store            # Global state
 ```
 
 ## Decision Documentation:
@@ -60,3 +62,72 @@ For significant changes, explain:
 - [ ] Accessible
 - [ ] Mobile responsive
 - [ ] Performant at scale
+
+## LOGGING DISCIPLINE:
+
+### FORBIDDEN in Production:
+
+```typescript
+// ❌ BANNED
+console.log('debug:', data)
+console.error('error:', error)
+alert('Success!')
+confirm('Are you sure?')
+```
+
+### REQUIRED:
+
+```typescript
+// ✅ Use proper logging
+import { logger } from '@/lib/logger'
+
+logger.info('User action', { userId, action })
+logger.error('Operation failed', { error, context })
+```
+
+## PERFORMANCE NON-NEGOTIABLES:
+
+### FORBIDDEN Performance Killers:
+
+- useEffect without dependency array
+- key={index} in dynamic lists
+- Inline function definitions in render
+- Large operations in render method
+- Synchronous operations blocking UI
+- Unoptimized images (not using next/image)
+- Unnecessary re-renders (missing memo/useMemo)
+
+## ASYNC OPERATIONS DISCIPLINE:
+
+### EVERY Async Operation MUST:
+
+```typescript
+// ✅ REQUIRED Pattern (using discriminated unions per TypeScript rules)
+type OperationState<T> =
+    | { status: 'idle' }
+    | { status: 'loading' }
+    | { status: 'error'; error: Error }
+    | { status: 'success'; data: T }
+
+async function operation(setState: (state: OperationState<Data>) => void) {
+    try {
+        setState({ status: 'loading' })
+
+        const result = await apiCall()
+
+        if (!result) {
+            throw new Error('No data received')
+        }
+
+        setState({ status: 'success', data: result })
+        return result
+    } catch (error) {
+        setState({ status: 'error', error })
+        logger.error('Operation failed', { error })
+        throw error
+    }
+}
+```
+
+**NO naked awaits, NO unhandled promises, NO assuming success**
+**Use discriminated unions, NOT multiple boolean flags**

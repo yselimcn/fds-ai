@@ -34,16 +34,33 @@ For complex global state before reaching for Context
 
 ## Custom Hook Pattern:
 
+Use discriminated unions for state (see TypeScript rules):
+
 ```typescript
+// ✅ CORRECT: Using discriminated union
+type ResourceState<T> =
+    | { status: 'loading' }
+    | { status: 'error'; error: Error }
+    | { status: 'success'; data: T }
+
 function useResource(id: string) {
-    const [data, setData] = useState<Resource | null>(null)
-    const [error, setError] = useState<Error | null>(null)
-    const [isLoading, setIsLoading] = useState(true)
+    const [state, setState] = useState<ResourceState<Resource>>({
+        status: 'loading',
+    })
 
-    // Effect logic here
+    useEffect(() => {
+        fetchResource(id)
+            .then((data) => setState({ status: 'success', data }))
+            .catch((error) => setState({ status: 'error', error }))
+    }, [id])
 
-    return { data, error, isLoading }
+    return state
 }
+
+// ❌ FORBIDDEN: Multiple boolean flags (conflicts with TypeScript rules)
+// const [isLoading, setIsLoading] = useState(true)
+// const [error, setError] = useState<Error | null>(null)
+// const [data, setData] = useState<Resource | null>(null)
 ```
 
 ## Form State:

@@ -46,3 +46,59 @@ const filteredItems = useMemo(
 - Use array indexes as keys in dynamic lists
 - Put business logic in components (use hooks/utils)
 - Create god components (>200 lines)
+
+## EXPLICITLY FORBIDDEN React Patterns:
+
+```typescript
+// ❌ FORBIDDEN: useEffect without dependencies
+useEffect(() => {
+    // This will run on every render
+})
+
+// ❌ FORBIDDEN: Key with index
+items.map((item, index) => <Item key={index} />)
+
+// ❌ FORBIDDEN: Inline function in render
+<Button onClick={() => handleClick(id)} />
+
+// ❌ FORBIDDEN: Nested ternaries
+return condition1 ? (
+    condition2 ? <A /> : <B />
+) : condition3 ? <C /> : <D />
+
+// ❌ FORBIDDEN: Console.log in production
+console.log('debug:', data)
+
+// ❌ FORBIDDEN: Missing error boundaries
+// Every feature should have error boundary
+```
+
+## MANDATORY Error Handling:
+
+**EVERY component that fetches data MUST handle:**
+
+- Loading state
+- Error state
+- Empty state
+- Success state
+- **NO EXCEPTIONS**
+
+```typescript
+// ✅ REQUIRED Pattern
+function DataComponent() {
+    const { data, error, isLoading } = useData()
+
+    if (isLoading) return <Skeleton />
+    if (error) return <ErrorState error={error} />
+    if (!data || data.length === 0) return <EmptyState />
+
+    return <SuccessState data={data} />
+}
+```
+
+## STOP BEING CLEVER:
+
+- Simple > Clever
+- Readable > Concise
+- Explicit > Implicit
+- Standard patterns > Custom solutions

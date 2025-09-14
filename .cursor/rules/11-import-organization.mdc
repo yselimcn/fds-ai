@@ -1,0 +1,76 @@
+---
+description: Strict import organization and formatting
+alwaysApply: true
+---
+
+# Import Organization - Keep It Clean
+
+## MANDATORY Import Order:
+
+Imports MUST be organized in this exact order with blank lines between groups:
+
+1. **Built-in Node modules** (e.g., `fs`, `path`, `http`)
+2. **External packages** (e.g., `react`, `next`, `zod`)
+3. **Internal aliases** (e.g., `@/components`, `@/lib`)
+4. **Parent imports** (e.g., `../`)
+5. **Sibling imports** (e.g., `./`)
+6. **Type imports** (always last with `import type`)
+
+```typescript
+// ✅ CORRECT Order
+import fs from 'fs'
+import path from 'path'
+
+import React from 'react'
+import { useRouter } from 'next/router'
+import { z } from 'zod'
+
+import { Button } from '@/components/ui/button'
+import { logger } from '@/lib/logger'
+
+import { ParentComponent } from '../components'
+
+import { LocalHelper } from './helper'
+
+import type { User, Post } from '@/types'
+```
+
+## FORBIDDEN Import Patterns:
+
+```typescript
+// ❌ FORBIDDEN: Mixed import groups
+import { Button } from '@/components/ui/button'
+import React from 'react'
+import fs from 'fs'
+
+// ❌ FORBIDDEN: Duplicate imports
+import { useState } from 'react'
+import { useEffect } from 'react'
+
+// ❌ FORBIDDEN: Circular dependencies
+// file: a.ts imports from b.ts
+// file: b.ts imports from a.ts
+
+// ❌ FORBIDDEN: Unsorted members
+import { z, a, b } from 'module'
+```
+
+## REQUIRED Patterns:
+
+- Sort imports alphabetically within each group
+- Sort imported members alphabetically
+- Use named imports over namespace imports when possible
+- Combine imports from same module
+- Remove unused imports immediately
+
+```typescript
+// ✅ REQUIRED: Combined and sorted
+import { useCallback, useEffect, useState } from 'react'
+
+// ❌ FORBIDDEN: Namespace when not needed
+import * as React from 'react' // Only use for React.FC, React.ReactNode etc
+```
+
+## Import = Code Organization Signal
+
+Messy imports = Messy code = FAILURE
