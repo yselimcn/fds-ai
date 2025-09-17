@@ -98,6 +98,12 @@ import {
     SheetTitle,
     SheetTrigger,
 } from './ui/sheet'
+import { Skeleton } from './ui/skeleton'
+import { toast } from 'sonner'
+import { Switch } from './ui/switch'
+import { Tabs, TabsList, TabsTrigger } from './ui/tabs'
+import { Textarea } from './ui/textarea'
+import { Tooltip, TooltipContent, TooltipTrigger } from './ui/tooltip'
 
 const components: { title: string; href: string; description: string }[] = [
     {
@@ -774,6 +780,52 @@ export default function Components() {
                         </SheetFooter>
                     </SheetContent>
                 </Sheet>
+            </section>
+            <section className="w-min-content flex flex-col gap-4">
+                <h1 className="text-md font-bold"> Skeleton</h1>
+                <Skeleton className="h-20 w-40" />
+            </section>
+            <section className="w-min-content flex flex-col gap-4">
+                <h1 className="text-md font-bold"> Sonner</h1>
+                <Button
+                    variant="outline"
+                    onClick={() =>
+                        toast('Event has been created', {
+                            description: 'Sunday, December 03, 2023 at 9:00 AM',
+                            action: {
+                                label: 'Undo',
+                                onClick: () => console.log('Undo'),
+                            },
+                        })
+                    }
+                >
+                    Show Toast
+                </Button>
+            </section>
+            <section className="w-min-content flex flex-col gap-4">
+                <h1 className="text-md font-bold"> Switch</h1>
+                <Switch />
+            </section>
+            <section className="w-min-content flex flex-col gap-4">
+                <h1 className="text-md font-bold">Tabs</h1>
+                <Tabs>
+                    <TabsList>
+                        <TabsTrigger value="tab1">Tab 1</TabsTrigger>
+                        <TabsTrigger value="tab2">Tab 2</TabsTrigger>
+                        <TabsTrigger value="tab3">Tab 3</TabsTrigger>
+                    </TabsList>
+                </Tabs>
+            </section>
+            <section className="w-min-content flex flex-col gap-4">
+                <h1 className="text-md font-bold">Textarea</h1>
+                <Textarea />
+            </section>
+            <section className="w-min-content flex flex-col gap-4">
+                <h1 className="text-md font-bold">Tooltip</h1>
+                <Tooltip>
+                    <TooltipTrigger>Hover</TooltipTrigger>
+                    <TooltipContent>Add to library</TooltipContent>
+                </Tooltip>
             </section>
         </div>
     )
