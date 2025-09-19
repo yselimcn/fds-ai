@@ -148,6 +148,142 @@ export default function Components() {
     return (
         <div className="flex flex-col gap-4">
             <section className="space-y-4 border-b pb-4">
+                <h1 className="text-md font-bold">Colors</h1>
+                <div className="w-min-content flex flex-col gap-4">
+                    <Label>Primary</Label>
+                    <div className="w-min-content flex flex-row gap-4">
+                        <div className="flex w-30 flex-col gap-2">
+                            <div className="text-primary-foreground h-16 w-16 rounded-md"></div>
+                            <h4 className="font-mono text-xs">text-primary</h4>
+                        </div>
+                        <div className="flex w-30 flex-col gap-2">
+                            <div className="bg-primary h-16 w-16 rounded-md"></div>
+                            <h4 className="font-mono text-xs">bg-primary</h4>
+                        </div>
+                        <div className="flex w-30 flex-col gap-2">
+                            <div className="bg-primary-hover h-16 w-16 rounded-md"></div>
+                            <h4 className="font-mono text-xs">
+                                bg-primary-hover
+                            </h4>
+                        </div>
+                        <div className="flex w-30 flex-col gap-2">
+                            <div className="bg-primary-active h-16 w-16 rounded-md"></div>
+                            <h4 className="font-mono text-xs">
+                                bg-primary-active
+                            </h4>
+                        </div>
+                    </div>
+                </div>
+                <div className="w-min-content flex flex-col gap-4">
+                    <Label>Secondary</Label>
+                    <div className="w-min-content flex flex-row gap-4">
+                        <div className="flex w-30 flex-col gap-2">
+                            <div className="text-secondary-foreground h-16 w-16 rounded-md"></div>
+                            <h4 className="font-mono text-xs">
+                                text-secondary
+                            </h4>
+                        </div>
+                        <div className="flex w-30 flex-col gap-2">
+                            <div className="bg-secondary-foreground h-16 w-16 rounded-md"></div>
+                            <h4 className="font-mono text-xs">bg-secondary</h4>
+                        </div>
+                        <div className="flex w-30 flex-col gap-2">
+                            <div className="bg-secondary-hover h-16 w-16 rounded-md"></div>
+                            <h4 className="font-mono text-xs">
+                                bg-secondary-hover
+                            </h4>
+                        </div>
+                        <div className="flex w-30 flex-col gap-2">
+                            <div className="bg-secondary-active h-16 w-16 rounded-md"></div>
+                            <h4 className="font-mono text-xs">
+                                bg-secondary-active
+                            </h4>
+                        </div>
+                    </div>
+                </div>
+                <div className="w-min-content flex flex-col gap-4">
+                    <Label>Destructive</Label>
+                    <div className="w-min-content flex flex-row gap-4">
+                        <div className="flex w-30 flex-col gap-2">
+                            <div className="h-16 w-16 rounded-md text-white"></div>
+                            <h4 className="font-mono text-xs">
+                                text-destructive
+                            </h4>
+                        </div>
+                        <div className="flex w-30 flex-col gap-2">
+                            <div className="bg-destructive h-16 w-16 rounded-md"></div>
+                            <h4 className="font-mono text-xs">
+                                bg-destructive
+                            </h4>
+                        </div>
+                        <div className="flex w-30 flex-col gap-2">
+                            <div className="bg-destructive-hover h-16 w-16 rounded-md"></div>
+                            <h4 className="font-mono text-xs">
+                                bg-destructive-hover
+                            </h4>
+                        </div>
+                        <div className="flex w-30 flex-col gap-2">
+                            <div className="bg-destructive-active h-16 w-16 rounded-md"></div>
+                            <h4 className="font-mono text-xs">
+                                bg-destructive-active
+                            </h4>
+                        </div>
+                    </div>
+                </div>
+                <div className="w-min-content flex flex-col gap-4">
+                    <Label>Accent</Label>
+                    <div className="w-min-content flex flex-row gap-4">
+                        <div className="flex w-30 flex-col gap-2">
+                            <div className="bg-accent-foreground h-16 w-16 rounded-md"></div>
+                            <h4 className="font-mono text-xs">text-accent</h4>
+                        </div>
+                        <div className="flex w-30 flex-col gap-2">
+                            <div className="bg-accent h-16 w-16 rounded-md"></div>
+                            <h4 className="font-mono text-xs">bg-accent</h4>
+                        </div>
+                    </div>
+                </div>
+                <div className="w-min-content flex flex-col gap-4">
+                    <Label>Tertiary</Label>
+                    <div className="w-min-content flex flex-row gap-4">
+                        <div className="flex w-30 flex-col gap-2">
+                            <div className="bg-tertiary-foreground h-16 w-16 rounded-md"></div>
+                            <h4 className="font-mono text-xs">text-tertiary</h4>
+                        </div>
+                        <div className="flex w-30 flex-col gap-2">
+                            <div className="bg-tertiary h-16 w-16 rounded-md"></div>
+                            <h4 className="font-mono text-xs">bg-tertiary</h4>
+                        </div>
+                    </div>
+                </div>
+                <div className="w-min-content flex flex-col gap-4">
+                    <Label>Muted</Label>
+                    <div className="w-min-content flex flex-row gap-4">
+                        <div className="flex w-30 flex-col gap-2">
+                            <div className="bg-muted-foreground h-16 w-16 rounded-md"></div>
+                            <h4 className="font-mono text-xs">text-muted</h4>
+                        </div>
+                        <div className="flex w-30 flex-col gap-2">
+                            <div className="bg-muted h-16 w-16 rounded-md"></div>
+                            <h4 className="font-mono text-xs">bg-muted</h4>
+                        </div>
+                    </div>
+                </div>
+                <div className="w-min-content flex flex-col gap-4">
+                    <Label>Disabled</Label>
+                    <div className="w-min-content flex flex-row gap-4">
+                        <div className="flex w-30 flex-col gap-2">
+                            <div className="bg-disabled-foreground h-16 w-16 rounded-md"></div>
+                            <h4 className="font-mono text-xs">text-disabled</h4>
+                        </div>
+                        <div className="flex w-30 flex-col gap-2">
+                            <div className="bg-disabled h-16 w-16 rounded-md"></div>
+                            <h4 className="font-mono text-xs">bg-disabled</h4>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section className="space-y-4 border-b pb-4">
                 <h1 className="text-md font-bold">Alert</h1>
                 <Alert variant="default">Default</Alert>
                 <Alert variant="destructive">Destructive</Alert>
@@ -285,6 +421,22 @@ export default function Components() {
                         <Button variant="ghost">Ghost</Button>
                         <Button variant="link">Link</Button>
                         <Button variant="destructive">Destructive</Button>
+                        <Button variant="destructive-outline">
+                            Destructive Outline
+                        </Button>
+                    </div>
+                </div>
+                <div className="w-min-content flex flex-col gap-4">
+                    <Label>With Icons</Label>
+                    <div className="w-min-content flex flex-row gap-4">
+                        <Button variant="default">
+                            Default
+                            <Circle size="16" />
+                        </Button>
+                        <Button variant="outline">
+                            <Circle size="16" />
+                            Outline
+                        </Button>
                     </div>
                 </div>
                 <div className="w-min-content flex flex-col gap-4">
@@ -303,6 +455,17 @@ export default function Components() {
                             <Circle size="16" />
                         </Button>
                         <Button variant="destructive" size="icon">
+                            <Circle size="16" />
+                        </Button>
+                    </div>
+                </div>
+                <div className="w-min-content flex flex-col gap-4">
+                    <Label>States</Label>
+                    <div className="w-min-content flex flex-row gap-4">
+                        <Button variant="default" disabled>
+                            Disabled
+                        </Button>
+                        <Button variant="outline" size="icon" disabled>
                             <Circle size="16" />
                         </Button>
                     </div>
