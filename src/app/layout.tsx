@@ -3,6 +3,8 @@ import { Inter as Sans, JetBrains_Mono as Mono } from 'next/font/google'
 import { Toaster } from 'sonner'
 import './globals.css'
 import { ThemeProvider } from '@/providers/theme-provider'
+import { getDictionary } from '@/lib/dictionary'
+import { DictionaryProvider } from '@/providers/dictionary-provider'
 
 const sans = Sans({
     variable: '--font-sans',
@@ -19,11 +21,12 @@ export const metadata: Metadata = {
     description: 'Base repo for FDS-AI',
 }
 
-export default function RootLayout({
+export default async function RootLayout({
     children,
 }: Readonly<{
     children: React.ReactNode
 }>) {
+    const dictionary = await getDictionary()
     return (
         <html lang="en" suppressHydrationWarning>
             <body className={`${sans.variable} ${mono.variable} antialiased`}>
@@ -33,8 +36,10 @@ export default function RootLayout({
                     enableSystem
                     disableTransitionOnChange
                 >
-                    <Toaster richColors position="top-right" />
-                    {children}
+                    <DictionaryProvider dictionary={dictionary}>
+                        <Toaster richColors position="top-right" />
+                        {children}
+                    </DictionaryProvider>
                 </ThemeProvider>
             </body>
         </html>

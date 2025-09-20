@@ -1,6 +1,7 @@
 'use client'
 import { useState } from 'react'
 import Link from 'next/link'
+import { z } from 'zod'
 import {
     AlertDialog,
     AlertDialogAction,
@@ -16,6 +17,14 @@ import { Alert } from './ui/alert'
 import { Button } from './ui/button'
 import { Input } from './ui/input'
 import { Label } from './ui/label'
+import { Form } from './ui/form'
+import {
+    EmailInput,
+    emailSchema,
+    PasswordInput,
+    passwordSchema,
+} from './customized'
+import { useZodForm } from '@/hooks/use-zod-form'
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
 import { Badge } from './ui/badge'
 import {
@@ -143,146 +152,31 @@ const components: { title: string; href: string; description: string }[] = [
     },
 ]
 
+// Combined form schema using both EmailInput and PasswordInput validations
+const LoginFormSchema = z.object({
+    email: emailSchema,
+    password: passwordSchema,
+})
+
 export default function Components() {
     const [date, setDate] = useState<Date | undefined>(undefined)
+
+    // Combined login form using useZodForm
+    const loginForm = useZodForm(LoginFormSchema, {
+        defaultValues: {
+            email: '',
+            password: '',
+        },
+    })
+
+    const onLoginSubmit = (data: z.infer<typeof LoginFormSchema>) => {
+        toast(
+            `Login submitted - Email: ${data.email}, Password: ${'*'.repeat(data.password.length)}`,
+        )
+        loginForm.reset()
+    }
     return (
         <div className="flex flex-col gap-4">
-            <section className="space-y-4 border-b pb-4">
-                <h1 className="text-md font-bold">Colors</h1>
-                <div className="w-min-content flex flex-col gap-4">
-                    <Label>Primary</Label>
-                    <div className="w-min-content flex flex-row gap-4">
-                        <div className="flex w-30 flex-col gap-2">
-                            <div className="text-primary-foreground h-16 w-16 rounded-md"></div>
-                            <h4 className="font-mono text-xs">text-primary</h4>
-                        </div>
-                        <div className="flex w-30 flex-col gap-2">
-                            <div className="bg-primary h-16 w-16 rounded-md"></div>
-                            <h4 className="font-mono text-xs">bg-primary</h4>
-                        </div>
-                        <div className="flex w-30 flex-col gap-2">
-                            <div className="bg-primary-hover h-16 w-16 rounded-md"></div>
-                            <h4 className="font-mono text-xs">
-                                bg-primary-hover
-                            </h4>
-                        </div>
-                        <div className="flex w-30 flex-col gap-2">
-                            <div className="bg-primary-active h-16 w-16 rounded-md"></div>
-                            <h4 className="font-mono text-xs">
-                                bg-primary-active
-                            </h4>
-                        </div>
-                    </div>
-                </div>
-                <div className="w-min-content flex flex-col gap-4">
-                    <Label>Secondary</Label>
-                    <div className="w-min-content flex flex-row gap-4">
-                        <div className="flex w-30 flex-col gap-2">
-                            <div className="text-secondary-foreground h-16 w-16 rounded-md"></div>
-                            <h4 className="font-mono text-xs">
-                                text-secondary
-                            </h4>
-                        </div>
-                        <div className="flex w-30 flex-col gap-2">
-                            <div className="bg-secondary-foreground h-16 w-16 rounded-md"></div>
-                            <h4 className="font-mono text-xs">bg-secondary</h4>
-                        </div>
-                        <div className="flex w-30 flex-col gap-2">
-                            <div className="bg-secondary-hover h-16 w-16 rounded-md"></div>
-                            <h4 className="font-mono text-xs">
-                                bg-secondary-hover
-                            </h4>
-                        </div>
-                        <div className="flex w-30 flex-col gap-2">
-                            <div className="bg-secondary-active h-16 w-16 rounded-md"></div>
-                            <h4 className="font-mono text-xs">
-                                bg-secondary-active
-                            </h4>
-                        </div>
-                    </div>
-                </div>
-                <div className="w-min-content flex flex-col gap-4">
-                    <Label>Destructive</Label>
-                    <div className="w-min-content flex flex-row gap-4">
-                        <div className="flex w-30 flex-col gap-2">
-                            <div className="h-16 w-16 rounded-md text-white"></div>
-                            <h4 className="font-mono text-xs">
-                                text-destructive
-                            </h4>
-                        </div>
-                        <div className="flex w-30 flex-col gap-2">
-                            <div className="bg-destructive h-16 w-16 rounded-md"></div>
-                            <h4 className="font-mono text-xs">
-                                bg-destructive
-                            </h4>
-                        </div>
-                        <div className="flex w-30 flex-col gap-2">
-                            <div className="bg-destructive-hover h-16 w-16 rounded-md"></div>
-                            <h4 className="font-mono text-xs">
-                                bg-destructive-hover
-                            </h4>
-                        </div>
-                        <div className="flex w-30 flex-col gap-2">
-                            <div className="bg-destructive-active h-16 w-16 rounded-md"></div>
-                            <h4 className="font-mono text-xs">
-                                bg-destructive-active
-                            </h4>
-                        </div>
-                    </div>
-                </div>
-                <div className="w-min-content flex flex-col gap-4">
-                    <Label>Accent</Label>
-                    <div className="w-min-content flex flex-row gap-4">
-                        <div className="flex w-30 flex-col gap-2">
-                            <div className="bg-accent-foreground h-16 w-16 rounded-md"></div>
-                            <h4 className="font-mono text-xs">text-accent</h4>
-                        </div>
-                        <div className="flex w-30 flex-col gap-2">
-                            <div className="bg-accent h-16 w-16 rounded-md"></div>
-                            <h4 className="font-mono text-xs">bg-accent</h4>
-                        </div>
-                    </div>
-                </div>
-                <div className="w-min-content flex flex-col gap-4">
-                    <Label>Tertiary</Label>
-                    <div className="w-min-content flex flex-row gap-4">
-                        <div className="flex w-30 flex-col gap-2">
-                            <div className="bg-tertiary-foreground h-16 w-16 rounded-md"></div>
-                            <h4 className="font-mono text-xs">text-tertiary</h4>
-                        </div>
-                        <div className="flex w-30 flex-col gap-2">
-                            <div className="bg-tertiary h-16 w-16 rounded-md"></div>
-                            <h4 className="font-mono text-xs">bg-tertiary</h4>
-                        </div>
-                    </div>
-                </div>
-                <div className="w-min-content flex flex-col gap-4">
-                    <Label>Muted</Label>
-                    <div className="w-min-content flex flex-row gap-4">
-                        <div className="flex w-30 flex-col gap-2">
-                            <div className="bg-muted-foreground h-16 w-16 rounded-md"></div>
-                            <h4 className="font-mono text-xs">text-muted</h4>
-                        </div>
-                        <div className="flex w-30 flex-col gap-2">
-                            <div className="bg-muted h-16 w-16 rounded-md"></div>
-                            <h4 className="font-mono text-xs">bg-muted</h4>
-                        </div>
-                    </div>
-                </div>
-                <div className="w-min-content flex flex-col gap-4">
-                    <Label>Disabled</Label>
-                    <div className="w-min-content flex flex-row gap-4">
-                        <div className="flex w-30 flex-col gap-2">
-                            <div className="bg-disabled-foreground h-16 w-16 rounded-md"></div>
-                            <h4 className="font-mono text-xs">text-disabled</h4>
-                        </div>
-                        <div className="flex w-30 flex-col gap-2">
-                            <div className="bg-disabled h-16 w-16 rounded-md"></div>
-                            <h4 className="font-mono text-xs">bg-disabled</h4>
-                        </div>
-                    </div>
-                </div>
-            </section>
             <section className="space-y-4 border-b pb-4">
                 <h1 className="text-md font-bold">Alert</h1>
                 <Alert variant="default">Default</Alert>
@@ -407,7 +301,13 @@ export default function Components() {
                         <Button variant="default" size="lg">
                             Large
                         </Button>
-                        <Button variant="default" size="icon">
+                        <Button variant="default" size="sm" isIcon>
+                            <Circle size="16" />
+                        </Button>
+                        <Button variant="default" size="default" isIcon>
+                            <Circle size="16" />
+                        </Button>
+                        <Button variant="default" size="lg" isIcon>
                             <Circle size="16" />
                         </Button>
                     </div>
@@ -421,7 +321,7 @@ export default function Components() {
                         <Button variant="ghost">Ghost</Button>
                         <Button variant="link">Link</Button>
                         <Button variant="destructive">Destructive</Button>
-                        <Button variant="destructive-outline">
+                        <Button variant="destructiveOutline">
                             Destructive Outline
                         </Button>
                     </div>
@@ -442,19 +342,22 @@ export default function Components() {
                 <div className="w-min-content flex flex-col gap-4">
                     <Label>Icon</Label>
                     <div className="w-min-content flex flex-row gap-4">
-                        <Button variant="default" size="icon">
+                        <Button variant="default" isIcon>
                             <Circle size="16" />
                         </Button>
-                        <Button variant="outline" size="icon">
+                        <Button variant="outline" isIcon>
                             <Circle size="16" />
                         </Button>
-                        <Button variant="secondary" size="icon">
+                        <Button variant="secondary" isIcon>
                             <Circle size="16" />
                         </Button>
-                        <Button variant="ghost" size="icon">
+                        <Button variant="ghost" isIcon>
                             <Circle size="16" />
                         </Button>
-                        <Button variant="destructive" size="icon">
+                        <Button variant="destructive" isIcon>
+                            <Circle size="16" />
+                        </Button>
+                        <Button variant="destructiveOutline" isIcon>
                             <Circle size="16" />
                         </Button>
                     </div>
@@ -465,7 +368,7 @@ export default function Components() {
                         <Button variant="default" disabled>
                             Disabled
                         </Button>
-                        <Button variant="outline" size="icon" disabled>
+                        <Button variant="outline" isIcon disabled>
                             <Circle size="16" />
                         </Button>
                     </div>
@@ -627,6 +530,32 @@ export default function Components() {
                             placeholder="Placeholder text"
                         />
                     </div>
+                </div>
+            </section>
+            <section className="w-min-content flex flex-col gap-4">
+                <h1 className="text-md font-bold">
+                    Login Form (Email & Password Customized Inputs)
+                </h1>
+                <div className="w-full max-w-md">
+                    <Form {...loginForm}>
+                        <form
+                            onSubmit={loginForm.handleSubmit(onLoginSubmit)}
+                            className="space-y-4"
+                        >
+                            <EmailInput
+                                control={loginForm.control}
+                                name="email"
+                            />
+                            <PasswordInput
+                                control={loginForm.control}
+                                name="password"
+                                showStrengthIndicator={true}
+                            />
+                            <Button type="submit" className="w-full">
+                                Giriş Yap
+                            </Button>
+                        </form>
+                    </Form>
                 </div>
             </section>
             <section className="w-min-content flex flex-col gap-4">
