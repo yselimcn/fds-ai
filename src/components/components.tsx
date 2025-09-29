@@ -23,6 +23,7 @@ import {
     emailSchema,
     PasswordInput,
     passwordSchema,
+    PhoneInput,
 } from './customized'
 import { useZodForm } from '@/hooks/use-zod-form'
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
@@ -177,6 +178,9 @@ export default function Components() {
     }
     return (
         <div className="flex flex-col gap-4">
+            <Button variant="secondary" size="default" disabled>
+                Onur
+            </Button>
             <section className="space-y-4 border-b pb-4">
                 <h1 className="text-md font-bold">Alert</h1>
                 <Alert variant="default">Default</Alert>
@@ -545,6 +549,11 @@ export default function Components() {
                             <EmailInput
                                 control={loginForm.control}
                                 name="email"
+                            />
+                            <PhoneInput
+                                international
+                                defaultCountry="TR"
+                                name="phone"
                             />
                             <PasswordInput
                                 control={loginForm.control}
