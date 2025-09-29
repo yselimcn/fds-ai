@@ -39,6 +39,13 @@
         },
         "button": {
             "submit": "Gönder"
+        },
+        "phone_input": {
+            "placeholder": "Telefon numarası",
+            "error": {
+                "required": "Telefon numarası gerekli.",
+                "invalid": "Geçersiz telefon numarası."
+            }
         }
     }
 }

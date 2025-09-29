@@ -1,7 +1,46 @@
+'use client'
+
+/**
+ * @file PhoneInput Component
+ * @description A comprehensive phone number input component with country selector and validation.
+ * It integrates `react-phone-number-input` with `shadcn/ui` components for a seamless experience
+ * within `react-hook-form` and `zod`.
+ *
+ * @features
+ * - Easy integration with `react-hook-form`.
+ * - Built-in validation using `libphonenumber-js` via the `phoneSchema` factory.
+ * - Interactive country selector with search functionality.
+ * - Visual feedback for validation states (valid, error).
+ * - All user-facing text is sourced from the i18n dictionary.
+ *
+ * @example
+ * // 1. Define your form schema using the `phoneSchema` factory
+ * import { z } from 'zod'
+ * import { phoneSchema } from './phone-input'
+ *
+ * const FormSchema = z.object({
+ *   // For a required phone number
+ *   mobilePhone: phoneSchema({ required: true }),
+ *   // For an optional phone number
+ *   homePhone: phoneSchema({ required: false }),
+ * });
+ *
+ * // 2. Use the PhoneInput in your form
+ * <PhoneInput
+ *   control={form.control}
+ *   name="mobilePhone"
+ *   label="Mobile Phone"
+ *   description="We'll use this for verification."
+ * />
+ */
+
 import * as React from 'react'
-import { CheckIcon, ChevronDown } from 'lucide-react'
+import { Check, CheckIcon, ChevronDown, TriangleAlert } from 'lucide-react'
 import * as RPNInput from 'react-phone-number-input'
 import flags from 'react-phone-number-input/flags'
+import { isValidPhoneNumber } from 'react-phone-number-input'
+import { z } from 'zod'
+import type { Control, FieldPath, FieldValues } from 'react-hook-form'
 
 import { Button } from '@/components/ui/button'
 import {
@@ -12,6 +51,14 @@ import {
     CommandItem,
     CommandList,
 } from '@/components/ui/command'
+import {
+    FormControl,
+    FormDescription,
+    FormField,
+    FormItem,
+    FormLabel,
+    FormMessage,
+} from '@/components/ui/form'
 import { Input, type InputProps } from '@/components/ui/input'
 import {
     Popover,
@@ -19,44 +66,134 @@ import {
     PopoverTrigger,
 } from '@/components/ui/popover'
 import { ScrollArea } from '@/components/ui/scroll-area'
+import { getClientDictionary } from '@/lib/dictionary'
 import { cn } from '@/lib/utils'
 
-type PhoneInputProps = Omit<InputProps, 'onChange' | 'value' | 'ref'> &
-    Omit<RPNInput.Props<typeof RPNInput.default>, 'onChange'> & {
-        onChange?: (value: RPNInput.Value) => void
+// Get dictionary texts for phone input
+const dictionary = getClientDictionary()
+const phoneTexts = dictionary.component.phone_input
+
+/**
+ * Creates a Zod schema for phone number validation.
+ *
+ * @param options - Configuration for the schema.
+ * @param {boolean} [options.required=false] - If true, the phone number is required.
+ * @returns A Zod schema for phone number validation.
+ */
+export const phoneSchema = (options?: { required?: boolean }) => {
+    const isRequired = options?.required ?? false
+    let schema = z.string()
+
+    if (isRequired) {
+        schema = schema.min(1, phoneTexts.error.required)
     }
 
-const PhoneInput: React.ForwardRefExoticComponent<PhoneInputProps> =
-    React.forwardRef<
-        React.ElementRef<typeof RPNInput.default>,
-        PhoneInputProps
-    >(({ className, onChange, value, ...props }, ref) => {
-        return (
-            <RPNInput.default
-                ref={ref}
-                className={cn('flex', className)}
-                flagComponent={FlagComponent}
-                countrySelectComponent={CountrySelect}
-                inputComponent={InputComponent}
-                smartCaret={false}
-                value={value || undefined}
-                /**
-                 * Handles the onChange event.
-                 *
-                 * react-phone-number-input might trigger the onChange event as undefined
-                 * when a valid phone number is not entered. To prevent this,
-                 * the value is coerced to an empty string.
-                 *
-                 * @param {E164Number | undefined} value - The entered value
-                 */
-                onChange={(value) =>
-                    onChange?.(value || ('' as RPNInput.Value))
-                }
-                {...props}
-            />
-        )
+    schema = schema.refine(isValidPhoneNumber, {
+        message: phoneTexts.error.invalid,
     })
-PhoneInput.displayName = 'PhoneInput'
+
+    if (!isRequired) {
+        return schema.optional().or(z.literal(''))
+    }
+
+    return schema
+}
+
+type PhoneInputProps<
+    TFieldValues extends FieldValues = FieldValues,
+    TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
+> = Omit<InputProps, 'onChange' | 'value' | 'ref' | 'name'> &
+    Omit<RPNInput.Props<typeof RPNInput.default>, 'onChange'> & {
+        control: Control<TFieldValues>
+        name: TName
+        label?: string
+        description?: string
+        onChange?: (value: RPNInput.Value) => void
+        required?: boolean
+    }
+
+function PhoneInput<
+    TFieldValues extends FieldValues = FieldValues,
+    TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
+>({
+    control,
+    name,
+    label,
+    description,
+    className,
+    disabled,
+    required,
+    ...props
+}: PhoneInputProps<TFieldValues, TName>) {
+    return (
+        <FormField
+            control={control}
+            name={name}
+            render={({ field, fieldState }) => {
+                // Check if field has been touched and has a value
+                const isTouched = fieldState.isTouched || fieldState.isDirty
+                const hasValue = field.value && field.value.length > 0
+                const isValid = hasValue && !fieldState.invalid && isTouched
+                const hasError = fieldState.invalid && isTouched
+                return (
+                    <FormItem>
+                        {label && <FormLabel>{label}</FormLabel>}
+                        <FormControl>
+                            <div className="relative">
+                                <RPNInput.default
+                                    ref={field.ref}
+                                    name={field.name}
+                                    onBlur={field.onBlur}
+                                    className={cn('flex', className)}
+                                    flagComponent={FlagComponent}
+                                    countrySelectComponent={CountrySelect}
+                                    inputComponent={InputComponent}
+                                    placeholder={phoneTexts.placeholder}
+                                    smartCaret={false}
+                                    value={field.value || undefined}
+                                    /**
+                                     * Handles the onChange event.
+                                     *
+                                     * react-phone-number-input might trigger the onChange event as undefined
+                                     * when a valid phone number is not entered. To prevent this,
+                                     * the value is coerced to an empty string.
+                                     *
+                                     * @param {E164Number | undefined} value - The entered value
+                                     */
+                                    onChange={(value) =>
+                                        field.onChange(
+                                            value || ('' as RPNInput.Value),
+                                        )
+                                    }
+                                    {...props}
+                                    disabled={disabled}
+                                    required={required}
+                                />
+                                {/* Validation status icons */}
+                                {hasError && (
+                                    <TriangleAlert
+                                        className="text-destructive pointer-events-none absolute top-1/2 right-3 z-10 h-4 w-4 -translate-y-1/2"
+                                        aria-hidden="true"
+                                    />
+                                )}
+                                {isValid && (
+                                    <Check
+                                        className="pointer-events-none absolute top-1/2 right-3 z-10 h-4 w-4 -translate-y-1/2 text-green-600"
+                                        aria-hidden="true"
+                                    />
+                                )}
+                            </div>
+                        </FormControl>
+                        {description && (
+                            <FormDescription>{description}</FormDescription>
+                        )}
+                        <FormMessage />
+                    </FormItem>
+                )
+            }}
+        />
+    )
+}
 
 const InputComponent = React.forwardRef<HTMLInputElement, InputProps>(
     ({ className, ...props }, ref) => (

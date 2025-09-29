@@ -1,5 +1,39 @@
 'use client'
 
+/**
+ * @file PasswordInput Component
+ * @description A fully self-contained password input with built-in validation, strength indicator, and visibility toggle.
+ * It's designed to work seamlessly with `react-hook-form` and `zod`.
+ *
+ * @features
+ * - Easy integration with `react-hook-form`.
+ * - Advanced validation via the `passwordSchema` factory, including checks for uppercase, lowercase, numbers, and special characters.
+ * - Real-time password strength indicator with a progress bar and text feedback (weak, medium, strong).
+ * - Visibility toggle (show/hide password).
+ * - All user-facing text is sourced from the i18n dictionary.
+ *
+ * @example
+ * // 1. Define your form schema using the `passwordSchema` factory
+ * import { z } from 'zod'
+ * import { passwordSchema } from './password-input'
+ *
+ * const FormSchema = z.object({
+ *   // Default behavior (required, 8 characters minimum)
+ *   password: passwordSchema(),
+ *   // Optional password with a minimum length of 10
+ *   optionalPassword: passwordSchema({ required: false, minLength: 10 }),
+ * });
+ *
+ * // 2. Use the PasswordInput in your form
+ * <PasswordInput
+ *   control={form.control}
+ *   name="password"
+ *   label="Password"
+ *   description="Choose a strong password."
+ *   showStrengthIndicator={true}
+ * />
+ */
+
 import * as React from 'react'
 import { z } from 'zod'
 import { Eye, EyeOff, Check } from 'lucide-react'
@@ -64,11 +98,24 @@ function createPasswordCriteria(
     ]
 }
 
-// Create password validation schema with built-in messages
-export function createPasswordSchema(minLength: number = DEFAULT_MIN_LENGTH) {
-    return z
+/**
+ * Creates a Zod schema for password validation.
+ *
+ * @param options - Configuration for the schema.
+ * @param {boolean} [options.required=true] - If true, the password is required.
+ * @param {number} [options.minLength=8] - The minimum length for the password.
+ * @returns A Zod schema for password validation.
+ */
+export const passwordSchema = (options?: {
+    required?: boolean
+    minLength?: number
+}) => {
+    const isRequired = options?.required ?? true // Default to required
+    const minLength = options?.minLength ?? DEFAULT_MIN_LENGTH
+
+    // Define the core validation for a non-empty password
+    const passwordValidation = z
         .string()
-        .min(1, passwordTexts.error.required)
         .min(
             minLength,
             passwordTexts.error.minLength.replace(
@@ -84,10 +131,18 @@ export function createPasswordSchema(minLength: number = DEFAULT_MIN_LENGTH) {
                 }
             })
         })
-}
 
-// Export default password schema with 8 character minimum
-export const passwordSchema = createPasswordSchema(DEFAULT_MIN_LENGTH)
+    if (isRequired) {
+        // If required, we chain from a non-empty string check
+        return z
+            .string()
+            .min(1, passwordTexts.error.required)
+            .pipe(passwordValidation)
+    }
+
+    // If not required, it can be an empty string, or it must pass the full validation
+    return z.union([z.literal(''), passwordValidation]).optional()
+}
 
 interface PasswordInputProps<
     TFieldValues extends FieldValues = FieldValues,
@@ -101,44 +156,6 @@ interface PasswordInputProps<
     minLength?: number
 }
 
-/**
- * PasswordInput Component
- *
- * A fully self-contained password input with built-in validation, strength indicator, and visibility toggle.
- * No need to pass dictionary or validation - everything is handled internally.
- *
- * Features:
- * - Eye icon to show/hide password
- * - Password strength indicator (optional)
- * - Visual feedback for each criterion
- * - Progress bar showing strength
- * - All texts from dictionary
- *
- * Usage in parent form:
- * ```
- * // Use default schema (8 char minimum)
- * const FormSchema = z.object({
- *   password: passwordSchema,
- * })
- *
- * // Or create custom schema with different min length
- * const FormSchema = z.object({
- *   password: createPasswordSchema(12),
- * })
- *
- * // Use in form
- * <Form {...form}>
- *   <form onSubmit={form.handleSubmit(onSubmit)}>
- *     <PasswordInput
- *       control={form.control}
- *       name="password"
- *       showStrengthIndicator={true}
- *     />
- *     <Button type="submit">Submit</Button>
- *   </form>
- * </Form>
- * ```
- */
 export function PasswordInput<
     TFieldValues extends FieldValues = FieldValues,
     TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,

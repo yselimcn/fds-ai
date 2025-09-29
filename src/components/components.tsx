@@ -24,6 +24,7 @@ import {
     PasswordInput,
     passwordSchema,
     PhoneInput,
+    phoneSchema,
 } from './customized'
 import { useZodForm } from '@/hooks/use-zod-form'
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
@@ -155,8 +156,9 @@ const components: { title: string; href: string; description: string }[] = [
 
 // Combined form schema using both EmailInput and PasswordInput validations
 const LoginFormSchema = z.object({
-    email: emailSchema,
-    password: passwordSchema,
+    email: emailSchema({ required: true }),
+    phone: phoneSchema({ required: true }),
+    password: passwordSchema(),
 })
 
 export default function Components() {
@@ -167,13 +169,12 @@ export default function Components() {
         defaultValues: {
             email: '',
             password: '',
+            phone: '',
         },
     })
 
-    const onLoginSubmit = (data: z.infer<typeof LoginFormSchema>) => {
-        toast(
-            `Login submitted - Email: ${data.email}, Password: ${'*'.repeat(data.password.length)}`,
-        )
+    const onLoginSubmit = () => {
+        toast(`Form submitted`)
         loginForm.reset()
     }
     return (
@@ -551,6 +552,7 @@ export default function Components() {
                                 name="email"
                             />
                             <PhoneInput
+                                control={loginForm.control}
                                 international
                                 defaultCountry="TR"
                                 name="phone"
