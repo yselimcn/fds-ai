@@ -1,4 +1,4 @@
-import dictionary from '@/locales/tr.json'
+import dictionary from '@/locales/tr'
 
 export const getDictionary = async () => dictionary
 

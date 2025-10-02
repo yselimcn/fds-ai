@@ -63,12 +63,7 @@ import {
 } from './ui/card'
 import { Checkbox } from './ui/checkbox'
 import { HoverCard, HoverCardContent, HoverCardTrigger } from './ui/hover-card'
-import {
-    InputOTP,
-    InputOTPGroup,
-    InputOTPSeparator,
-    InputOTPSlot,
-} from './ui/input-otp'
+import { InputOTP, InputOTPGroup, InputOTPSlot } from './ui/input-otp'
 import {
     NavigationMenu,
     NavigationMenuContent,
@@ -112,9 +107,11 @@ import {
 import { Skeleton } from './ui/skeleton'
 import { toast } from 'sonner'
 import { Switch } from './ui/switch'
-import { Tabs, TabsList, TabsTrigger } from './ui/tabs'
+import { Tabs, TabsList, TabsTrigger, TabsContent } from './ui/tabs'
 import { Textarea } from './ui/textarea'
 import { Tooltip, TooltipContent, TooltipTrigger } from './ui/tooltip'
+import { DatePicker } from './ui/date-picker'
+import { DateRangePicker } from './ui/date-range-picker'
 
 const components: { title: string; href: string; description: string }[] = [
     {
@@ -164,6 +161,31 @@ const LoginFormSchema = z.object({
 export default function Components() {
     const [date, setDate] = useState<Date | undefined>(undefined)
 
+    const tabsWithBadges = [
+        {
+            name: 'Account',
+            value: 'account',
+            content: 'Account settings will be here.',
+        },
+        {
+            name: 'Notifications',
+            value: 'notifications',
+            content: 'Notification settings will be here.',
+            count: 3,
+        },
+        {
+            name: 'Appearance',
+            value: 'appearance',
+            content: 'Appearance settings will be here.',
+        },
+        {
+            name: 'Support',
+            value: 'support',
+            content: 'Support information will be here.',
+            count: 9,
+        },
+    ]
+
     // Combined login form using useZodForm
     const loginForm = useZodForm(LoginFormSchema, {
         defaultValues: {
@@ -178,10 +200,7 @@ export default function Components() {
         loginForm.reset()
     }
     return (
-        <div className="flex flex-col gap-4">
-            <Button variant="secondary" size="default" disabled>
-                Onur
-            </Button>
+        <div className="mx-auto flex max-w-screen-md flex-col gap-4">
             <section className="space-y-4 border-b pb-4">
                 <h1 className="text-md font-bold">Alert</h1>
                 <Alert variant="default">Default</Alert>
@@ -381,13 +400,21 @@ export default function Components() {
             </section>
             <section className="space-y-4 border-b pb-4">
                 <h1 className="text-md font-bold">Calendar</h1>
-                <Calendar
-                    mode="single"
-                    selected={date}
-                    onSelect={setDate}
-                    className="rounded-md border shadow-sm"
-                    captionLayout="dropdown"
-                />
+                <div className="w-min-content flex flex-row gap-4">
+                    <Calendar
+                        mode="single"
+                        selected={date}
+                        onSelect={setDate}
+                        captionLayout="dropdown"
+                        showOutsideDays={false}
+                    />
+                    <Calendar
+                        mode="range"
+                        selected={{ from: date, to: date }}
+                        captionLayout="dropdown"
+                        showOutsideDays={false}
+                    />
+                </div>
             </section>
             <section className="space-y-4 border-b pb-4">
                 <h1 className="text-md font-bold">Card</h1>
@@ -562,6 +589,8 @@ export default function Components() {
                                 name="password"
                                 showStrengthIndicator={true}
                             />
+                            <DatePicker />
+                            <DateRangePicker />
                             <Button type="submit" className="w-full">
                                 Giriş Yap
                             </Button>
@@ -576,9 +605,6 @@ export default function Components() {
                         <InputOTPSlot index={0} />
                         <InputOTPSlot index={1} />
                         <InputOTPSlot index={2} />
-                    </InputOTPGroup>
-                    <InputOTPSeparator />
-                    <InputOTPGroup>
                         <InputOTPSlot index={3} />
                         <InputOTPSlot index={4} />
                         <InputOTPSlot index={5} />
@@ -911,12 +937,29 @@ export default function Components() {
             </section>
             <section className="w-min-content flex flex-col gap-4">
                 <h1 className="text-md font-bold">Tabs</h1>
-                <Tabs>
+                <Tabs defaultValue={tabsWithBadges[0].value}>
                     <TabsList>
-                        <TabsTrigger value="tab1">Tab 1</TabsTrigger>
-                        <TabsTrigger value="tab2">Tab 2</TabsTrigger>
-                        <TabsTrigger value="tab3">Tab 3</TabsTrigger>
+                        {tabsWithBadges.map((tab) => (
+                            <TabsTrigger key={tab.value} value={tab.value}>
+                                {tab.name}
+                                {!!tab.count && (
+                                    <Badge
+                                        variant="secondary"
+                                        className="ml-2 rounded-full px-1.5 py-0.5 text-xs"
+                                    >
+                                        {tab.count}
+                                    </Badge>
+                                )}
+                            </TabsTrigger>
+                        ))}
                     </TabsList>
+                    {tabsWithBadges.map((tab) => (
+                        <TabsContent key={tab.value} value={tab.value}>
+                            <p className="text-muted-foreground text-sm">
+                                {tab.content}
+                            </p>
+                        </TabsContent>
+                    ))}
                 </Tabs>
             </section>
             <section className="w-min-content flex flex-col gap-4">
@@ -927,7 +970,7 @@ export default function Components() {
                 <h1 className="text-md font-bold">Tooltip</h1>
                 <Tooltip>
                     <TooltipTrigger>Hover</TooltipTrigger>
-                    <TooltipContent>Add to library</TooltipContent>
+                    <TooltipContent side="top">Add to library</TooltipContent>
                 </Tooltip>
             </section>
         </div>

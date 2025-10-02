@@ -20,7 +20,6 @@ export function DictionaryProvider({
         </DictionaryContext.Provider>
     )
 }
-
 export const useDictionary = () => {
     const context = React.useContext(DictionaryContext)
     if (!context) {
