@@ -482,6 +482,23 @@ export default function Components() {
                 </div>
             </section>
             <section className="w-min-content flex flex-col gap-4">
+                <h1 className="text-md font-bold">Radio Group</h1>
+                <RadioGroup defaultValue="comfortable">
+                    <div className="flex items-center gap-3">
+                        <RadioGroupItem value="default" id="r1" />
+                        <Label htmlFor="r1">Default</Label>
+                    </div>
+                    <div className="flex items-center gap-3">
+                        <RadioGroupItem value="comfortable" id="r2" />
+                        <Label htmlFor="r2">Comfortable</Label>
+                    </div>
+                    <div className="flex items-center gap-3">
+                        <RadioGroupItem value="compact" id="r3" />
+                        <Label htmlFor="r3">Compact</Label>
+                    </div>
+                </RadioGroup>
+            </section>
+            <section className="w-min-content flex flex-col gap-4">
                 <h1 className="text-md font-bold">Hover Card</h1>
                 <HoverCard>
                     <HoverCardTrigger asChild>
@@ -539,6 +556,8 @@ export default function Components() {
                             placeholder="Placeholder text"
                         />
                     </div>
+                </div>
+                <div className="w-min-content flex flex-row gap-4">
                     <div className="flex flex-col gap-2">
                         <Label>Small Outline</Label>
                         <Input
@@ -563,6 +582,51 @@ export default function Components() {
                         />
                     </div>
                 </div>
+                <div className="w-min-content flex flex-row gap-4">
+                    <div className="flex flex-col gap-2">
+                        <Label>Date Picker</Label>
+                        <DatePicker />
+                    </div>
+                    <div className="flex flex-col gap-2">
+                        <Label>Date Range Picker</Label>
+                        <DateRangePicker />
+                    </div>
+                </div>
+            </section>
+            <section className="w-min-content flex flex-col gap-4">
+                <h1 className="text-md font-bold">Input OTP</h1>
+                <InputOTP maxLength={6}>
+                    <InputOTPGroup>
+                        <InputOTPSlot index={0} />
+                        <InputOTPSlot index={1} />
+                        <InputOTPSlot index={2} />
+                        <InputOTPSlot index={3} />
+                        <InputOTPSlot index={4} />
+                        <InputOTPSlot index={5} />
+                    </InputOTPGroup>
+                </InputOTP>
+            </section>
+            <section className="w-min-content flex flex-col gap-4">
+                <h1 className="text-md font-bold">Select</h1>
+                <Select>
+                    <SelectTrigger className="w-[180px]">
+                        <SelectValue placeholder="Select a fruit" />
+                    </SelectTrigger>
+                    <SelectContent>
+                        <SelectGroup>
+                            <SelectLabel>Fruits</SelectLabel>
+                            <SelectItem value="apple">Apple</SelectItem>
+                            <SelectItem value="banana">Banana</SelectItem>
+                            <SelectItem value="blueberry">Blueberry</SelectItem>
+                            <SelectItem value="grapes">Grapes</SelectItem>
+                            <SelectItem value="pineapple">Pineapple</SelectItem>
+                        </SelectGroup>
+                    </SelectContent>
+                </Select>
+            </section>
+            <section className="w-min-content flex flex-col gap-4">
+                <h1 className="text-md font-bold">Textarea</h1>
+                <Textarea />
             </section>
             <section className="w-min-content flex flex-col gap-4">
                 <h1 className="text-md font-bold">
@@ -589,27 +653,12 @@ export default function Components() {
                                 name="password"
                                 showStrengthIndicator={true}
                             />
-                            <DatePicker />
-                            <DateRangePicker />
                             <Button type="submit" className="w-full">
                                 Giriş Yap
                             </Button>
                         </form>
                     </Form>
                 </div>
-            </section>
-            <section className="w-min-content flex flex-col gap-4">
-                <h1 className="text-md font-bold">Input OTP</h1>
-                <InputOTP maxLength={6}>
-                    <InputOTPGroup>
-                        <InputOTPSlot index={0} />
-                        <InputOTPSlot index={1} />
-                        <InputOTPSlot index={2} />
-                        <InputOTPSlot index={3} />
-                        <InputOTPSlot index={4} />
-                        <InputOTPSlot index={5} />
-                    </InputOTPGroup>
-                </InputOTP>
             </section>
             <section className="w-min-content flex flex-col gap-4">
                 <h1 className="text-md font-bold">Navigation Menu</h1>
@@ -814,41 +863,6 @@ export default function Components() {
                 <Progress value={50} />
             </section>
             <section className="w-min-content flex flex-col gap-4">
-                <h1 className="text-md font-bold">Radio Group</h1>
-                <RadioGroup defaultValue="comfortable">
-                    <div className="flex items-center gap-3">
-                        <RadioGroupItem value="default" id="r1" />
-                        <Label htmlFor="r1">Default</Label>
-                    </div>
-                    <div className="flex items-center gap-3">
-                        <RadioGroupItem value="comfortable" id="r2" />
-                        <Label htmlFor="r2">Comfortable</Label>
-                    </div>
-                    <div className="flex items-center gap-3">
-                        <RadioGroupItem value="compact" id="r3" />
-                        <Label htmlFor="r3">Compact</Label>
-                    </div>
-                </RadioGroup>
-            </section>
-            <section className="w-min-content flex flex-col gap-4">
-                <h1 className="text-md font-bold">Select</h1>
-                <Select>
-                    <SelectTrigger className="w-[180px]">
-                        <SelectValue placeholder="Select a fruit" />
-                    </SelectTrigger>
-                    <SelectContent>
-                        <SelectGroup>
-                            <SelectLabel>Fruits</SelectLabel>
-                            <SelectItem value="apple">Apple</SelectItem>
-                            <SelectItem value="banana">Banana</SelectItem>
-                            <SelectItem value="blueberry">Blueberry</SelectItem>
-                            <SelectItem value="grapes">Grapes</SelectItem>
-                            <SelectItem value="pineapple">Pineapple</SelectItem>
-                        </SelectGroup>
-                    </SelectContent>
-                </Select>
-            </section>
-            <section className="w-min-content flex flex-col gap-4">
                 <h1 className="text-md font-bold">Separator</h1>
                 <div>
                     <div className="space-y-1">
@@ -961,10 +975,6 @@ export default function Components() {
                         </TabsContent>
                     ))}
                 </Tabs>
-            </section>
-            <section className="w-min-content flex flex-col gap-4">
-                <h1 className="text-md font-bold">Textarea</h1>
-                <Textarea />
             </section>
             <section className="w-min-content flex flex-col gap-4">
                 <h1 className="text-md font-bold">Tooltip</h1>

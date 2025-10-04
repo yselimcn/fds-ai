@@ -48,6 +48,10 @@ const dictionary = {
                 invalid: 'Geçersiz telefon numarası.',
             },
         },
+        date_picker: {
+            select_date: 'Tarih seçiniz',
+            select_date_range: 'Tarih aralığı seçiniz',
+        },
     },
 } as const
 
