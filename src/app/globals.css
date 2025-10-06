@@ -115,6 +115,26 @@
     --sidebar-ring: oklch(0.556 0 0);
 }
 
+[data-theme-set='parasut'] {
+    --primary: oklch(0.464 0.011 34.3);
+    --destructive: oklch(0.697 0.19 32.8);
+}
+
+[data-theme-set='parasut'].dark {
+    --primary: oklch(0.878 0.056 73.2);
+    --destructive: oklch(0.529 0.147 32.9);
+}
+
+[data-theme-set='bizmu'] {
+    --primary: oklch(0.659 0.152 240.8);
+    --destructive: oklch(0.543 0.214 25.3);
+}
+
+[data-theme-set='bizmu'].dark {
+    --primary: oklch(0.895 0.06 227.8);
+    --destructive: oklch(0.792 0.12 20.1);
+}
+
 @layer base {
     * {
         @apply border-border outline-ring/50;

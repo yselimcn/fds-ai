@@ -5,6 +5,7 @@ import './globals.css'
 import { ThemeProvider } from '@/providers/theme-provider'
 import { getDictionary } from '@/lib/dictionary'
 import { DictionaryProvider } from '@/providers/dictionary-provider'
+import { ProductThemeProvider } from '@/providers/product-theme-provider'
 
 const sans = Sans({
     variable: '--font-sans',
@@ -30,17 +31,19 @@ export default async function RootLayout({
     return (
         <html lang="en" suppressHydrationWarning>
             <body className={`${sans.variable} ${mono.variable} antialiased`}>
-                <ThemeProvider
-                    attribute="class"
-                    defaultTheme="system"
-                    enableSystem
-                    disableTransitionOnChange
-                >
-                    <DictionaryProvider dictionary={dictionary}>
-                        <Toaster richColors position="top-right" />
-                        {children}
-                    </DictionaryProvider>
-                </ThemeProvider>
+                <ProductThemeProvider>
+                    <ThemeProvider
+                        attribute="class"
+                        defaultTheme="system"
+                        enableSystem
+                        disableTransitionOnChange
+                    >
+                        <DictionaryProvider dictionary={dictionary}>
+                            <Toaster richColors position="top-right" />
+                            {children}
+                        </DictionaryProvider>
+                    </ThemeProvider>
+                </ProductThemeProvider>
             </body>
         </html>
     )

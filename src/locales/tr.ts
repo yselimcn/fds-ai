@@ -53,6 +53,11 @@ const dictionary = {
             select_date_range: 'Tarih aralığı seçiniz',
         },
     },
+    themes: {
+        default: 'Default',
+        parasut: 'Paraşüt',
+        bizmu: 'Bizmu',
+    },
 } as const
 
 export type Dictionary = typeof dictionary
