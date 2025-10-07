@@ -230,15 +230,45 @@ export default function Components() {
                     </AlertDialogContent>
                 </AlertDialog>
             </section>
-            {/* TODO: Aspect Ratio */}
+            {/* TODO: Avatar */}
             <section className="space-y-4 border-b pb-4">
-                <h1 className="text-md font-bold">Aspect Ratio</h1>
-                <Avatar>
-                    <AvatarImage src="https://avatar.iran.liara.run/public/10" />
-                    <AvatarFallback>
-                        <Circle size="16" />
-                    </AvatarFallback>
-                </Avatar>
+                <h1 className="text-md font-bold">Avatar</h1>
+                <div className="flex w-full flex-wrap gap-2">
+                    <Avatar>
+                        <AvatarImage
+                            src="https://images.unsplash.com/photo-1574158622682-e40e69881006?q=80&w=2333&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                            alt="@itsacat"
+                        />
+                        <AvatarFallback>
+                            <Circle size="16" />
+                        </AvatarFallback>
+                    </Avatar>
+                    <Avatar>
+                        <AvatarFallback>
+                            <Circle size="16" />
+                        </AvatarFallback>
+                    </Avatar>
+                    <Avatar>
+                        <AvatarFallback>DS</AvatarFallback>
+                    </Avatar>
+                </div>
+                <div className="flex w-full flex-wrap gap-2">
+                    <Avatar className="rounded-md">
+                        <AvatarImage
+                            src="https://images.unsplash.com/photo-1574158622682-e40e69881006?q=80&w=2333&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                            alt="@itsacat"
+                        />
+                        <AvatarFallback>DS</AvatarFallback>
+                    </Avatar>
+                    <Avatar className="rounded-md">
+                        <AvatarFallback>
+                            <Circle size="16" />
+                        </AvatarFallback>
+                    </Avatar>
+                    <Avatar className="rounded-md">
+                        <AvatarFallback>DS</AvatarFallback>
+                    </Avatar>
+                </div>
             </section>
             <section className="space-y-4 border-b pb-4">
                 <h1 className="text-md font-bold">Badge</h1>
