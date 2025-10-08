@@ -112,6 +112,7 @@ import { Textarea } from './ui/textarea'
 import { Tooltip, TooltipContent, TooltipTrigger } from './ui/tooltip'
 import { DatePicker } from './ui/date-picker'
 import { DateRangePicker } from './ui/date-range-picker'
+import { CurrencySection } from './customized/currency'
 
 const components: { title: string; href: string; description: string }[] = [
     {
@@ -653,6 +654,10 @@ export default function Components() {
                         </SelectGroup>
                     </SelectContent>
                 </Select>
+            </section>
+            <section className="w-min-content flex flex-col gap-4">
+                <h1 className="text-md font-bold">Currency Section</h1>
+                <CurrencySection />
             </section>
             <section className="w-min-content flex flex-col gap-4">
                 <h1 className="text-md font-bold">Textarea</h1>

@@ -52,6 +52,17 @@ const dictionary = {
             select_date: 'Tarih seçiniz',
             select_date_range: 'Tarih aralığı seçiniz',
         },
+        currency: {
+            change_currency: 'Döviz değiştir',
+            sale: 'Satış',
+            purchase: 'Alış',
+            currencies: {
+                try: 'Türk Lirası',
+                usd: 'ABD Doları',
+                eur: 'Euro',
+                gbp: 'İngiliz Sterlini',
+            },
+        },
     },
     themes: {
         default: 'Default',
