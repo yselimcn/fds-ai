@@ -113,6 +113,7 @@ import { Tooltip, TooltipContent, TooltipTrigger } from './ui/tooltip'
 import { DatePicker } from './ui/date-picker'
 import { DateRangePicker } from './ui/date-range-picker'
 import { CurrencySection } from './customized/currency'
+import { FormattedInput } from './customized/input-formatted'
 
 const components: { title: string; href: string; description: string }[] = [
     {
@@ -161,6 +162,11 @@ const LoginFormSchema = z.object({
 
 export default function Components() {
     const [date, setDate] = useState<Date | undefined>(undefined)
+    const [demoPrice, setDemoPrice] = useState<number>(0)
+    const [discountMode, setDiscountMode] = useState<'currency' | 'percentage'>(
+        'currency',
+    )
+    const [discountValue, setDiscountValue] = useState<number>(0)
 
     const tabsWithBadges = [
         {
@@ -658,6 +664,21 @@ export default function Components() {
             <section className="w-min-content flex flex-col gap-4">
                 <h1 className="text-md font-bold">Currency Section</h1>
                 <CurrencySection />
+                <FormattedInput
+                    value={demoPrice}
+                    isCurrency
+                    selectedCurrencySymbol="₺"
+                    onChange={setDemoPrice}
+                    decimalLimit={4}
+                />
+                <FormattedInput
+                    value={discountValue}
+                    onChange={setDiscountValue}
+                    decimalLimit={4}
+                    showDiscountModeToggle
+                    discountMode={discountMode}
+                    onDiscountModeChange={setDiscountMode}
+                />
             </section>
             <section className="w-min-content flex flex-col gap-4">
                 <h1 className="text-md font-bold">Textarea</h1>
