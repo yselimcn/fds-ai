@@ -3,9 +3,10 @@
 import * as React from 'react'
 import { Slot } from '@radix-ui/react-slot'
 import { cva, VariantProps } from 'class-variance-authority'
-import { PanelLeftIcon } from 'lucide-react'
+import { ArrowLeftToLineIcon, ArrowRightToLineIcon } from 'lucide-react'
 
 import { useIsMobile } from '@/hooks/use-mobile'
+import { getClientDictionary } from '@/lib/dictionary'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -29,7 +30,7 @@ const SIDEBAR_COOKIE_NAME = 'sidebar_state'
 const SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7
 const SIDEBAR_WIDTH = '16rem'
 const SIDEBAR_WIDTH_MOBILE = '18rem'
-const SIDEBAR_WIDTH_ICON = '3.25rem'
+const SIDEBAR_WIDTH_ICON = '3.5rem'
 const SIDEBAR_KEYBOARD_SHORTCUT = 'b'
 
 type SidebarContextProps = {
@@ -272,25 +273,61 @@ function SidebarTrigger({
     onClick,
     ...props
 }: React.ComponentProps<typeof Button>) {
-    const { toggleSidebar } = useSidebar()
+    const { toggleSidebar, state, isMobile } = useSidebar()
+    const dict = getClientDictionary()
 
-    return (
+    const button = (
         <Button
-            isIcon
+            isIcon={state === 'collapsed'}
             data-sidebar="trigger"
             data-slot="sidebar-trigger"
             variant="ghost"
             size="default"
-            className={cn('size-7', className)}
+            className={cn(
+                sidebarMenuButtonVariants({
+                    variant: 'default',
+                    size: 'default',
+                }),
+                'group-data-[collapsible=icon]:size-10! group-data-[collapsible=icon]:[&>span:last-child]:hidden!',
+                className,
+            )}
             onClick={(event) => {
                 onClick?.(event)
                 toggleSidebar()
             }}
             {...props}
         >
-            <PanelLeftIcon />
-            <span className="sr-only">Toggle Sidebar</span>
+            {state === 'expanded' ? (
+                <ArrowLeftToLineIcon />
+            ) : (
+                <ArrowRightToLineIcon />
+            )}
+            <span
+                className={cn(
+                    'w-full truncate text-left',
+                    'group-data-[state=collapsed]/sidebar:sr-only',
+                )}
+            >
+                {state === 'expanded'
+                    ? dict.component.sidebar.hideMenu
+                    : dict.component.sidebar.showMenu}
+            </span>
         </Button>
+    )
+
+    return (
+        <Tooltip>
+            <TooltipTrigger asChild>{button}</TooltipTrigger>
+            <TooltipContent
+                side="right"
+                align="center"
+                hidden={state !== 'collapsed' || isMobile}
+            >
+                {state === 'expanded'
+                    ? dict.component.sidebar.hideMenu
+                    : dict.component.sidebar.showMenu}
+            </TooltipContent>
+        </Tooltip>
     )
 }
 
@@ -352,7 +389,7 @@ function SidebarHeader({ className, ...props }: React.ComponentProps<'div'>) {
         <div
             data-slot="sidebar-header"
             data-sidebar="header"
-            className={cn('flex flex-col gap-2 p-2', className)}
+            className={cn('flex flex-col gap-2 px-2 py-3', className)}
             {...props}
         />
     )
@@ -403,7 +440,7 @@ function SidebarGroup({ className, ...props }: React.ComponentProps<'div'>) {
             data-slot="sidebar-group"
             data-sidebar="group"
             className={cn(
-                'relative flex w-full min-w-0 flex-col p-2',
+                'relative flex w-full min-w-0 flex-col p-2 py-0',
                 className,
             )}
             {...props}
@@ -492,7 +529,7 @@ function SidebarMenuItem({ className, ...props }: React.ComponentProps<'li'>) {
 }
 
 const sidebarMenuButtonVariants = cva(
-    'peer/menu-button flex w-full items-center gap-2 overflow-hidden rounded-md p-2 text-left text-sm outline-hidden ring-sidebar-ring transition-[width,height,padding] hover:bg-background hover:text-sidebar-accent-foreground focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 group-has-data-[sidebar=menu-action]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:bg-sidebar-accent data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-background data-[state=open]:hover:text-sidebar-accent-foreground data-[state=open]:bg-background group-data-[state=open]/collapsible:bg-background group-data-[collapsible=icon]:size-10! group-data-[collapsible=icon]:[&>span:last-child]:hidden! [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0',
+    'peer/menu-button flex w-full items-center justify-center gap-2 overflow-hidden rounded-md p-2 p-3 text-left text-sm outline-hidden ring-sidebar-ring transition-[width,height,padding] hover:bg-background hover:text-sidebar-accent-foreground focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 group-has-data-[sidebar=menu-action]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:bg-sidebar-accent data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-background data-[state=open]:hover:text-sidebar-accent-foreground data-[state=open]:bg-background group-data-[state=open]/collapsible:bg-background group-data-[collapsible=icon]:size-10! group-data-[collapsible=icon]:[&>span:last-child]:hidden! [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0',
     {
         variants: {
             variant: {
@@ -668,7 +705,7 @@ function SidebarMenuSub({ className, ...props }: React.ComponentProps<'ul'>) {
             data-slot="sidebar-menu-sub"
             data-sidebar="menu-sub"
             className={cn(
-                'border-sidebar-border mx-3.5 flex min-w-0 translate-x-px flex-col gap-1 border-l px-2.5 py-0.5',
+                'border-sidebar-border mx-4.5 flex min-w-0 translate-x-px flex-col gap-1 border-l px-2.5 py-0.5',
                 'group-data-[collapsible=icon]:hidden',
                 className,
             )}

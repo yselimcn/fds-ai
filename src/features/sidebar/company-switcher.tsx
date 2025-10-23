@@ -33,27 +33,27 @@ export function CompanySwitcher({
 
     return (
         <SidebarMenu>
-            <SidebarMenuItem className="flex items-center gap-2 py-1">
-                <div className="flex aspect-square size-9 items-center justify-center rounded-lg">
-                    <Image
-                        src="/parasut.svg"
-                        alt="Paraşüt"
-                        width={28}
-                        height={28}
-                    />
-                </div>
+            <SidebarMenuItem>
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                        <SidebarMenuButton className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground">
-                            <div className="grid truncate text-left text-sm leading-tight font-medium">
+                        <SidebarMenuButton className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground flex items-center gap-2 py-1">
+                            <div className="flex aspect-square size-7 items-center justify-center rounded-lg">
+                                <Image
+                                    src="/parasut.svg"
+                                    alt="Paraşüt"
+                                    width={28}
+                                    height={28}
+                                />
+                            </div>
+                            <div className="grid truncate text-left text-sm leading-tight font-medium group-data-[collapsible=icon]:hidden">
                                 {activeTeam.name}
                             </div>
-                            <ChevronDown className="ml-auto" />
+                            <ChevronDown className="ml-auto group-data-[collapsible=icon]:hidden" />
                         </SidebarMenuButton>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent
                         className="w-(--radix-dropdown-menu-trigger-width) min-w-56 rounded-lg"
-                        align="end"
+                        align="start"
                         side="bottom"
                     >
                         {teams.map((team, index) => (

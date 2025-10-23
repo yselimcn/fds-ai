@@ -63,6 +63,10 @@ const dictionary = {
                 gbp: 'İngiliz Sterlini',
             },
         },
+        sidebar: {
+            hideMenu: 'Menüyü gizle',
+            showMenu: 'Menüyü göster',
+        },
     },
     themes: {
         default: 'Default',

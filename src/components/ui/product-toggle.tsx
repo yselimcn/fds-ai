@@ -10,7 +10,7 @@ import {
 } from '@/components/ui/select'
 
 interface ProductThemeSwitcherProps {
-    dict: {
+    dictionary: {
         themes: {
             default: string
             parasut: string
@@ -19,18 +19,24 @@ interface ProductThemeSwitcherProps {
     }
 }
 
-export function ProductThemeSwitcher({ dict }: ProductThemeSwitcherProps) {
+export function ProductThemeSwitcher({
+    dictionary,
+}: ProductThemeSwitcherProps) {
     const { themeSet, setThemeSet } = useProductTheme()
 
     return (
         <Select onValueChange={setThemeSet} value={themeSet}>
             <SelectTrigger>
-                <SelectValue placeholder={dict.themes[themeSet]} />
+                <SelectValue placeholder={dictionary.themes[themeSet]} />
             </SelectTrigger>
             <SelectContent>
-                <SelectItem value="default">{dict.themes.default}</SelectItem>
-                <SelectItem value="parasut">{dict.themes.parasut}</SelectItem>
-                <SelectItem value="bizmu">{dict.themes.bizmu}</SelectItem>
+                <SelectItem value="default">
+                    {dictionary.themes.default}
+                </SelectItem>
+                <SelectItem value="parasut">
+                    {dictionary.themes.parasut}
+                </SelectItem>
+                <SelectItem value="bizmu">{dictionary.themes.bizmu}</SelectItem>
             </SelectContent>
         </Select>
     )

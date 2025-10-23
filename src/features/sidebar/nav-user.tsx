@@ -25,6 +25,7 @@ import {
     SidebarMenuItem,
     useSidebar,
 } from '@/components/ui/sidebar'
+import { cn } from '@/lib/utils'
 
 export function NavUser({
     user,
@@ -35,7 +36,7 @@ export function NavUser({
         avatar: string
     }
 }) {
-    const { isMobile } = useSidebar()
+    const { isMobile, state } = useSidebar()
 
     return (
         <SidebarMenu>
@@ -44,7 +45,7 @@ export function NavUser({
                     <DropdownMenuTrigger asChild>
                         <SidebarMenuButton
                             size="lg"
-                            className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+                            className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground px-2"
                         >
                             <Avatar className="h-8 w-8 rounded-lg">
                                 <AvatarImage
@@ -55,7 +56,12 @@ export function NavUser({
                                     CN
                                 </AvatarFallback>
                             </Avatar>
-                            <div className="grid flex-1 text-left text-sm leading-tight">
+                            <div
+                                className={cn(
+                                    'grid flex-1 text-left text-sm leading-tight',
+                                    state === 'collapsed' && 'hidden',
+                                )}
+                            >
                                 <span className="truncate font-medium">
                                     {user.name}
                                 </span>
@@ -63,7 +69,9 @@ export function NavUser({
                                     {user.email}
                                 </span>
                             </div>
-                            <ChevronDown className="ml-auto size-4" />
+                            {state === 'expanded' && (
+                                <ChevronDown className="ml-auto size-4" />
+                            )}
                         </SidebarMenuButton>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent
