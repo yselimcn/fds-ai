@@ -7,7 +7,11 @@ import { getDictionary } from '@/lib/dictionary'
 import { DictionaryProvider } from '@/providers/dictionary-provider'
 import { ProductThemeProvider } from '@/providers/product-theme-provider'
 
-import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar'
+import {
+    SidebarInset,
+    SidebarProvider,
+    SidebarTrigger,
+} from '@/components/ui/sidebar'
 import { AppSidebar } from '@/features/sidebar/app-sidebar'
 import {
     Breadcrumb,
@@ -19,6 +23,7 @@ import {
 } from '@/components/ui/breadcrumb'
 import { ThemeToggle } from '@/components/theme-toggle'
 import { ProductThemeSwitcher } from '@/components/ui/product-toggle'
+import { Separator } from '@/components/ui/separator'
 
 const sans = Sans({
     variable: '--font-sans',
@@ -56,7 +61,14 @@ export default async function RootLayout({
                             <SidebarProvider>
                                 <AppSidebar />
                                 <SidebarInset>
-                                    <header className="flex h-16 shrink-0 items-center justify-between gap-2 pr-4">
+                                    <header className="flex h-16 shrink-0 items-center px-4 md:pl-0">
+                                        <div className="flex items-center gap-1 pr-4 md:hidden">
+                                            <SidebarTrigger className="-ml-1" />
+                                            <Separator
+                                                orientation="vertical"
+                                                className="mx-2 data-[orientation=vertical]:h-4"
+                                            />
+                                        </div>
                                         <Breadcrumb>
                                             <BreadcrumbList>
                                                 <BreadcrumbItem className="hidden md:block">
@@ -73,14 +85,14 @@ export default async function RootLayout({
                                                 </BreadcrumbItem>
                                             </BreadcrumbList>
                                         </Breadcrumb>
-                                        <div className="flex gap-2">
+                                        <div className="ml-auto flex items-center gap-2">
                                             <ProductThemeSwitcher
                                                 dictionary={dictionary}
                                             />
                                             <ThemeToggle />
                                         </div>
                                     </header>
-                                    <div className="flex flex-1 flex-col gap-4 p-4 pt-0 pl-0">
+                                    <div className="flex flex-1 flex-col gap-4 p-4 pt-0 md:pl-0">
                                         {children}
                                     </div>
                                 </SidebarInset>

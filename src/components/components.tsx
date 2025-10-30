@@ -207,7 +207,7 @@ export default function Components() {
         loginForm.reset()
     }
     return (
-        <div className="mx-auto flex max-w-screen-md flex-col gap-4">
+        <div className="mx-auto flex max-w-screen-md flex-col gap-4 px-4">
             <section className="space-y-4 border-b pb-4">
                 <h1 className="text-md font-bold">Alert</h1>
                 <Alert variant="default">Default</Alert>
@@ -352,7 +352,7 @@ export default function Components() {
                 <h1 className="text-md font-bold">Buttons</h1>
                 <div className="w-min-content flex flex-col gap-4">
                     <Label>Sizes</Label>
-                    <div className="w-min-content flex flex-row gap-4">
+                    <div className="w-min-content flex flex-row flex-wrap gap-4">
                         <Button variant="default" size="sm">
                             Small
                         </Button>
@@ -375,7 +375,7 @@ export default function Components() {
                 </div>
                 <div className="w-min-content flex flex-col gap-4">
                     <Label>Variants</Label>
-                    <div className="w-min-content flex flex-row gap-4">
+                    <div className="w-min-content flex flex-row flex-wrap gap-4">
                         <Button variant="default">Default</Button>
                         <Button variant="outline">Outline</Button>
                         <Button variant="secondary">Secondary</Button>
@@ -389,7 +389,7 @@ export default function Components() {
                 </div>
                 <div className="w-min-content flex flex-col gap-4">
                     <Label>With Icons</Label>
-                    <div className="w-min-content flex flex-row gap-4">
+                    <div className="w-min-content flex flex-row flex-wrap gap-4">
                         <Button variant="default">
                             Default
                             <Circle size="16" />
@@ -402,7 +402,7 @@ export default function Components() {
                 </div>
                 <div className="w-min-content flex flex-col gap-4">
                     <Label>Icon</Label>
-                    <div className="w-min-content flex flex-row gap-4">
+                    <div className="w-min-content flex flex-row flex-wrap gap-4">
                         <Button variant="default" isIcon>
                             <Circle size="16" />
                         </Button>
@@ -425,7 +425,7 @@ export default function Components() {
                 </div>
                 <div className="w-min-content flex flex-col gap-4">
                     <Label>States</Label>
-                    <div className="w-min-content flex flex-row gap-4">
+                    <div className="w-min-content flex flex-row flex-wrap gap-4">
                         <Button variant="default" disabled>
                             Disabled
                         </Button>
@@ -437,7 +437,7 @@ export default function Components() {
             </section>
             <section className="space-y-4 border-b pb-4">
                 <h1 className="text-md font-bold">Calendar</h1>
-                <div className="w-min-content flex flex-row gap-4">
+                <div className="w-min-content flex flex-row flex-wrap gap-4">
                     <Calendar
                         mode="single"
                         selected={date}
@@ -569,7 +569,7 @@ export default function Components() {
                 <h1 className="text-md font-bold">
                     Input <b>(WIP)</b>
                 </h1>
-                <div className="w-min-content flex flex-row gap-4">
+                <div className="w-min-content flex flex-row flex-wrap gap-4">
                     <div className="flex flex-col gap-2">
                         <Label>Small Outline</Label>
                         <Input
@@ -594,7 +594,7 @@ export default function Components() {
                         />
                     </div>
                 </div>
-                <div className="w-min-content flex flex-row gap-4">
+                <div className="w-min-content flex flex-row flex-wrap gap-4">
                     <div className="flex flex-col gap-2">
                         <Label>Small Outline</Label>
                         <Input
@@ -619,7 +619,7 @@ export default function Components() {
                         />
                     </div>
                 </div>
-                <div className="w-min-content flex flex-row gap-4">
+                <div className="w-min-content flex flex-row flex-wrap gap-4">
                     <div className="flex flex-col gap-2">
                         <Label>Date Picker</Label>
                         <DatePicker />

@@ -11,8 +11,8 @@ import {
     SidebarContent,
     SidebarFooter,
     SidebarHeader,
-    SidebarTrigger,
 } from '@/components/ui/sidebar'
+import { NavigationTrigger } from '@/components/customized'
 
 const data = {
     user: {
@@ -130,7 +130,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                 <NavMain items={data.navMain} />
             </SidebarContent>
             <SidebarFooter>
-                <SidebarTrigger />
+                <NavigationTrigger />
                 <NavUser user={data.user} />
             </SidebarFooter>
         </Sidebar>
