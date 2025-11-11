@@ -36,8 +36,8 @@ export function CompanySwitcher({
             <SidebarMenuItem>
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                        <SidebarMenuButton className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground flex items-center gap-2 py-1">
-                            <div className="flex aspect-square size-7 items-center justify-center rounded-lg">
+                        <SidebarMenuButton className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground pr-3 pl-1">
+                            <div className="flex aspect-square size-8 items-center justify-center rounded-lg">
                                 <Image
                                     src="/parasut.svg"
                                     alt="Paraşüt"
