@@ -63,8 +63,9 @@ export function NavMain({
                                     side="right"
                                     align="start"
                                     sideOffset={4}
-                                    className="w-56 p-1"
+                                    className="relative w-56 p-1"
                                 >
+                                    <div className="absolute top-0 -left-[4px] h-full w-2"></div>
                                     <ul className="flex flex-col gap-1">
                                         {item.items.map((subItem) => (
                                             <li key={subItem.title}>
